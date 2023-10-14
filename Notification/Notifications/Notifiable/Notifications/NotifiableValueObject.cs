@@ -43,7 +43,7 @@ public partial class Notifiable<TEntity> : INotifiableModel
 
         var failures = value.GetNotifications(CurrentProp.MemberName);
 
-        for (var i = 0; i < failures.Count; i++)
+        for (var i = 0; i < failures?.Count; i++)
         {
             var failure = failures[i];
 
