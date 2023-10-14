@@ -1,6 +1,6 @@
 ﻿using Notification.Notifications;
 
-namespace Notification;
+namespace Notification.Tests.Domain;
 
 public static class Erros
 {

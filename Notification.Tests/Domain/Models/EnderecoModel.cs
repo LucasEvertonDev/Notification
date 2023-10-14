@@ -1,6 +1,6 @@
-﻿using Notification.Entities;
+﻿using Notification.Tests.Domain.Entities;
 
-namespace Notification.Models;
+namespace Notification.Tests.Domain.Models;
 
 public class EnderecoModel
 {

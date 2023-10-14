@@ -1,6 +1,6 @@
 ﻿using Notification.Notifications;
 
-namespace Notification.Entities;
+namespace Notification.Tests.Domain.Entities;
 
 public class Logradouro : BaseEntity<Logradouro>
 {

@@ -1,5 +1,6 @@
 ﻿using Architecture.Application.Core.Notifications.Notifiable.Notifications;
-namespace Notification.Entities;
+
+namespace Notification.Tests.Domain.Entities;
 
 public partial class BaseEntity<TEntity> : Notifiable<TEntity>
 {

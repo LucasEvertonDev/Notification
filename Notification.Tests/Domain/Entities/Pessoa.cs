@@ -1,7 +1,7 @@
-﻿using Notification.Models;
-using Notification.ValueObjects;
+﻿using Notification.Tests.Domain;
+using Notification.Tests.Domain.ValueObjects;
 
-namespace Notification.Entities;
+namespace Notification.Tests.Domain.Entities;
 
 public partial class Pessoa : BaseEntity<Pessoa>
 {
@@ -27,9 +27,15 @@ public partial class Pessoa : BaseEntity<Pessoa>
 
         Set(pessoa => pessoa.DataNascimento, dataNascimento);
 
-        Set(pessoa => pessoa.Endereco, endereco);
+        Set(pessoa => pessoa.Endereco, endereco)
+            .ValidateWhen()
+            .IsNull()
+            .AddFailure(Erros.Pessoa.EnderecoEObrigatorio);
 
-        Set(pessoa => pessoa.Enderecos, enderecos);
+        Set(pessoa => pessoa.Enderecos, enderecos)
+            .ValidateWhen()
+            .IsNull()
+            .AddFailure(Erros.Pessoa.EnderecosEObrigatorio);
 
         return this;
     }

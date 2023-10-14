@@ -1,7 +1,7 @@
 ﻿using Notification.Notifications;
-using Notification.ValueObjects.Base;
+using Notification.Tests.Domain.ValueObjects.Base;
 
-namespace Notification.ValueObjects;
+namespace Notification.Tests.Domain.ValueObjects;
 
 public class Nome : ValueObject<Nome>
 {

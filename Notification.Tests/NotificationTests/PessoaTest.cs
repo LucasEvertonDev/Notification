@@ -1,9 +1,8 @@
 ﻿using FluentAssertions;
 using Newtonsoft.Json;
-using Notification.Entities;
-using Notification.Extensions;
-using Notification.Models;
 using Notification.Notifications.Notifiable.Notifications;
+using Notification.Tests.Domain;
+using Notification.Tests.Domain.Entities;
 
 namespace Notification.Tests.NotificationTests;
 
@@ -101,7 +100,8 @@ public class PessoaTest : Notifiable
                 sobrenome: "sobrenome",
                 email: "email@teste.com",
                 dataNascimento: DateTime.Now,
-                endereco: endereco2
+                endereco: null,
+                enderecos: null
             );
 
         var failues = pessoa.GetFailures();

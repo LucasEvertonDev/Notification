@@ -1,7 +1,7 @@
 ﻿using Architecture.Application.Core.Notifications.Notifiable.Notifications;
 using Notification.Notifications.Notifiable.Notifications.Base;
 
-namespace Notification.ValueObjects.Base;
+namespace Notification.Tests.Domain.ValueObjects.Base;
 
 public abstract class ValueObject<T> : Notifiable<T>, INotifiableModel
 {
