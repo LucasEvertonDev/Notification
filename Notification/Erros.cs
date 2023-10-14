@@ -25,7 +25,7 @@ public static class Erros
 
         public static FailureModel EnderecoEObrigatorio = new FailureModel("EnderecoEObrigatorio", "Endereco é obrigatporio");
 
-        public static FailureModel EnderecosEObrigatorio = new FailureModel("EnderecosEObrigatorio", "Endereco é obrigatporio");
+        public static FailureModel EnderecosEObrigatorio = new FailureModel("EnderecosEObrigatorio", "Enderecos são obrigatórios");
     }
 
     public class GrupoUsuario

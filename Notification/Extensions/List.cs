@@ -1,5 +1,6 @@
 ﻿using Notification.Notifications;
 using Notification.Notifications.Notifiable.Notifications.Base;
+using System.Linq;
 
 namespace Notification.Extensions;
 
@@ -25,12 +26,22 @@ public static class List
             if (item.GetFailures().Any())
             {
                 notifications.AddRange(
-                    item.GetFailures().Select(notication =>
+                    item.GetFailures().Select(notf =>
                     {
-                        var nomeRedundanteDoObjetoDaLista = notication.NotificationInfo.PropInfo.MemberName.IndexOf('.');
-                        notication.NotificationInfo.PropInfo.MemberName = $"{prefix}[{i}].{notication.NotificationInfo.PropInfo.MemberName.Substring(nomeRedundanteDoObjetoDaLista + 1)}";
+                        var nomeRedundanteDoObjetoDaLista = notf.NotificationInfo.PropInfo.MemberName.IndexOf('.');
 
-                        return notication;
+                        var notification = new NotificationModel(notf.Error,
+                            new NotificationInfo(
+                                new PropInfo()
+                                {
+                                    MemberName = $"{prefix}[{i}].{notf.NotificationInfo.PropInfo.MemberName.Substring(nomeRedundanteDoObjetoDaLista + 1)}",
+                                    Value = notf.NotificationInfo.PropInfo.Value,
+                                },
+                                notf.NotificationInfo.EntityInfo
+                            )
+                        );
+
+                        return notification;
                     })
                     .ToList()
                 );

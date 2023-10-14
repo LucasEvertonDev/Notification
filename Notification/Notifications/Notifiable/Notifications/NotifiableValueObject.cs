@@ -18,13 +18,23 @@ public partial class Notifiable<TEntity> : INotifiableModel
     {
         this.SetValue(memberLamda, value);
 
-        for (var i = 0; i < value.GetFailures().Count(); i++)
+        for (var i = 0; i < value?.GetFailures()?.Count(); i++)
         {
             var failure = value.GetFailures()[i];
 
             failure.NotificationInfo.PropInfo.SetMemberNamePrefix(CurrentProp.MemberName);
 
-            this.Result.GetContext().AddNotification(failure);
+            this.Result.GetContext().AddNotification(new NotificationModel(
+                 failure.Error,
+                 new NotificationInfo(
+                     new PropInfo()
+                     {
+                         MemberName = failure.NotificationInfo.PropInfo.MemberName,
+                         Value = failure.NotificationInfo.PropInfo.Value,
+                     },
+                     failure.NotificationInfo.EntityInfo
+                 )
+            ));
         }
 
         return new AfterSet<AfterValidationWhenObject>(Result.GetContext(), new NotificationInfo(CurrentProp, EntityInfo));

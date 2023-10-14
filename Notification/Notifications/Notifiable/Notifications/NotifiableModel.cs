@@ -38,6 +38,8 @@ public partial class Notifiable<TEntity> : INotifiableModel
 
     private void SetValue(dynamic lambda, dynamic value)
     {
+        CurrentProp = new PropInfo();
+
         var memberSelectorExpression = lambda.Body as MemberExpression;
         if (memberSelectorExpression != null)
         {
@@ -46,6 +48,7 @@ public partial class Notifiable<TEntity> : INotifiableModel
             {
                 property.SetValue(this, value, null);
                 CurrentProp.MemberName = value is INotifiableModel ? EntityInfo.Name : string.Concat(EntityInfo.Name, ".", property.Name);
+                CurrentProp.ClearName = property.Name;
             }
             else
             {
