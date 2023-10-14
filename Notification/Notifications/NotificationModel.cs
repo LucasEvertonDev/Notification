@@ -10,13 +10,8 @@ public record NotificationModel
         this.NotificationInfo = notificationInfo;
     }
 
-    //public string GetFulName()
-    //{
-
-    //}
-
-    public FailureModel Error { get; private set; }
-    public NotificationInfo NotificationInfo { get; private set; }
+    public FailureModel Error { get; set; }
+    public NotificationInfo NotificationInfo { get; set; }
 } 
 
 public record FailureModel(string key, string message)

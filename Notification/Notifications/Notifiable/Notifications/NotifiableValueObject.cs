@@ -22,19 +22,11 @@ public partial class Notifiable<TEntity> : INotifiableModel
         {
             var failure = value.GetFailures()[i];
 
-            failure.NotificationInfo.PropInfo.SetMemberNamePrefix(CurrentProp.MemberName);
+            var notification = failure.Clone();
 
-            this.Result.GetContext().AddNotification(new NotificationModel(
-                 failure.Error,
-                 new NotificationInfo(
-                     new PropInfo()
-                     {
-                         MemberName = failure.NotificationInfo.PropInfo.MemberName,
-                         Value = failure.NotificationInfo.PropInfo.Value,
-                     },
-                     failure.NotificationInfo.EntityInfo
-                 )
-            ));
+            notification.NotificationInfo.PropInfo.SetMemberNamePrefix(CurrentProp.MemberName);
+
+            this.Result.GetContext().AddNotification(notification);
         }
 
         return new AfterSet<AfterValidationWhenObject>(Result.GetContext(), new NotificationInfo(CurrentProp, EntityInfo));

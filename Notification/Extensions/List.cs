@@ -1,6 +1,11 @@
-﻿using Notification.Notifications;
+﻿using Newtonsoft.Json;
+using Notification.Notifications;
 using Notification.Notifications.Notifiable.Notifications.Base;
 using System.Linq;
+using System.Net.Http.Json;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace Notification.Extensions;
 
@@ -28,18 +33,10 @@ public static class List
                 notifications.AddRange(
                     item.GetFailures().Select(notf =>
                     {
-                        var nomeRedundanteDoObjetoDaLista = notf.NotificationInfo.PropInfo.MemberName.IndexOf('.');
+                        var notification = notf.Clone();
 
-                        var notification = new NotificationModel(notf.Error,
-                            new NotificationInfo(
-                                new PropInfo()
-                                {
-                                    MemberName = $"{prefix}[{i}].{notf.NotificationInfo.PropInfo.MemberName.Substring(nomeRedundanteDoObjetoDaLista + 1)}",
-                                    Value = notf.NotificationInfo.PropInfo.Value,
-                                },
-                                notf.NotificationInfo.EntityInfo
-                            )
-                        );
+                        var nomeRedundanteDoObjetoDaLista = notf.NotificationInfo.PropInfo.MemberName.IndexOf('.');
+                        notification.NotificationInfo.PropInfo.MemberName = $"{prefix}[{i}].{notf.NotificationInfo.PropInfo.MemberName.Substring(nomeRedundanteDoObjetoDaLista + 1)}";
 
                         return notification;
                     })
@@ -49,5 +46,14 @@ public static class List
         }
 
         return notifications;
+    }
+}
+
+public static class ExtensionMethods
+{
+    public static T Clone<T>(this T a)
+    {
+        string jsonString = JsonConvert.SerializeObject(a);
+        return JsonConvert.DeserializeObject<T>(jsonString);
     }
 }

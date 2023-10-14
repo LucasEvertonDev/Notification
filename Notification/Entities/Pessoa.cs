@@ -14,21 +14,20 @@ public partial class Pessoa : BaseEntity<Pessoa>
 
     public Pessoa CriarPessoa(string primeiroNome, string sobrenome, string email, DateTime? dataNascimento, Endereco endereco, List<Endereco> enderecos = null)
     {
-        //Set(pessoa => pessoa.Nome, new Nome()
-        //    .CriarNome(
-        //        primeiroNome: primeiroNome,
-        //        sobrenome: sobrenome
-        //    ));
+        Set(pessoa => pessoa.Nome, new Nome()
+            .CriarNome(
+                primeiroNome: primeiroNome,
+                sobrenome: sobrenome
+            ));
 
-        //Set(pessoa => pessoa.Email, email)
-        //    .ValidateWhen()
-        //    .IsNullOrEmpty().AddFailure(Erros.Pessoa.EmailObrigatorio)
-        //    .IsInvalidEmail().AddFailure(Erros.Pessoa.EmailInvalido);
+        Set(pessoa => pessoa.Email, email)
+            .ValidateWhen()
+            .IsNullOrEmpty().AddFailure(Erros.Pessoa.EmailObrigatorio)
+            .IsInvalidEmail().AddFailure(Erros.Pessoa.EmailInvalido);
 
-        //Set(pessoa => pessoa.DataNascimento, dataNascimento);
+        Set(pessoa => pessoa.DataNascimento, dataNascimento);
 
         Set(pessoa => pessoa.Endereco, endereco);
-
 
         Set(pessoa => pessoa.Enderecos, enderecos);
 
