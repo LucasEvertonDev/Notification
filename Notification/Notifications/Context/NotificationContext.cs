@@ -1,4 +1,6 @@
-﻿namespace Notification.Notifications.Context;
+﻿using Notification.Notifications;
+
+namespace Notification.Notifications.Context;
 
 public class NotificationContext
 {

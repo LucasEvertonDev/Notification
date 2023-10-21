@@ -4,10 +4,10 @@ namespace Notification.Notifications;
 
 public class NotificationInfo
 {
-    public NotificationInfo (PropInfo propInfo, EntityInfo entityInfo)
+    public NotificationInfo(PropInfo propInfo, EntityInfo entityInfo)
     {
-        this.PropInfo = propInfo;
-        this.EntityInfo = entityInfo;
+        PropInfo = propInfo;
+        EntityInfo = entityInfo;
     }
 
     public PropInfo PropInfo { get; set; }
@@ -22,11 +22,9 @@ public class PropInfo
 
     public string MemberName { get; set; }
 
-    public string ClearName { get; set; }
-
     public void SetMemberNamePrefix(string prefix)
     {
-        this.MemberName = string.IsNullOrEmpty(prefix) ? this.MemberName : string.Concat(prefix, ".", this.MemberName);
+        MemberName = string.IsNullOrEmpty(prefix) ? MemberName : string.Concat(prefix, ".", MemberName);
     }
 }
 

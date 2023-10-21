@@ -1,4 +1,5 @@
-﻿using Notification.Notifications;
+﻿using Newtonsoft.Json.Linq;
+using Notification.Notifications;
 using Notification.Notifications.Context;
 using Notification.Notifications.Notifiable.Notifications.Base;
 using System.Linq.Expressions;
@@ -38,25 +39,16 @@ public partial class Notifiable<TEntity> : INotifiableModel
         return GetFailures().Any();
     }
 
-    private void SetValue(dynamic lambda, dynamic value)
+    private void SetValue(string func, dynamic value)
     {
-        CurrentProp = new PropInfo();
+        string member = func.Split("=>")[0].Trim();
 
-        var memberSelectorExpression = lambda.Body as MemberExpression;
-        if (memberSelectorExpression != null)
+        this.GetType().GetProperty(member).SetValue(this, value);
+
+        CurrentProp = new PropInfo() 
         {
-            var property = memberSelectorExpression.Member as PropertyInfo;
-            if (property != null)
-            {
-                property.SetValue(this, value, null);
-                CurrentProp.MemberName = value is INotifiableModel ? EntityInfo.Name : string.Concat(EntityInfo.Name, ".", property.Name);
-                CurrentProp.ClearName = property.Name;
-            }
-            else
-            {
-                throw new Exception("É preciso adicionar {get; set;} a sua prop");
-            }
-        }
-        CurrentProp.Value = value;
+            MemberName = value is INotifiableModel ? EntityInfo.Name : string.Concat(EntityInfo.Name, ".", member),
+            Value = value
+        };
     }
 }
