@@ -4,7 +4,7 @@ using Notification.Notifications.Notifiable.Steps.AfterSet;
 using Notification.Notifications.Notifiable.Steps.AfterValidationWhen;
 using System.Linq.Expressions;
 
-namespace Architecture.Application.Core.Notifications.Notifiable.Notifications;
+namespace Notifications.Notifiable.Notifications;
 
 public partial class Notifiable<TEntity> : INotifiableModel
 {

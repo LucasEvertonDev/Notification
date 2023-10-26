@@ -1,12 +1,11 @@
-﻿using Newtonsoft.Json.Linq;
-using Notification.Notifications;
+﻿using Notification.Notifications;
 using Notification.Notifications.Context;
 using Notification.Notifications.Notifiable.Notifications.Base;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Text.Json.Serialization;
 
-namespace Architecture.Application.Core.Notifications.Notifiable.Notifications;
+namespace Notifications.Notifiable.Notifications;
 
 public partial class Notifiable<TEntity> : INotifiableModel
 {
@@ -29,9 +28,14 @@ public partial class Notifiable<TEntity> : INotifiableModel
         Namespace = typeof(TEntity).Namespace
     };
 
-    public List<NotificationModel> GetFailures()
+    public List<NotificationModel> GetNotifications()
     {
         return Result.GetContext().Notifications.ToList();
+    }
+
+    public List<FailureModel> GetFailures()
+    {
+        return Result.GetContext().Notifications.Select(a => a.Error).ToList();
     }
 
     public bool HasFailure()
@@ -39,16 +43,24 @@ public partial class Notifiable<TEntity> : INotifiableModel
         return GetFailures().Any();
     }
 
-    private void SetValue(string func, dynamic value)
+    private void SetValue(dynamic lambda, dynamic value)
     {
-        string member = func.Split("=>")[0].Trim();
+        CurrentProp = new PropInfo();
 
-        this.GetType().GetProperty(member).SetValue(this, value);
-
-        CurrentProp = new PropInfo() 
+        var memberSelectorExpression = lambda.Body as MemberExpression;
+        if (memberSelectorExpression != null)
         {
-            MemberName = value is INotifiableModel ? EntityInfo.Name : string.Concat(EntityInfo.Name, ".", member),
-            Value = value
-        };
+            var property = memberSelectorExpression.Member as PropertyInfo;
+            if (property != null)
+            {
+                property.SetValue(this, value, null);
+                CurrentProp.MemberName = value is INotifiableModel ? EntityInfo.Name : string.Concat(EntityInfo.Name, ".", property.Name);
+            }
+            else
+            {
+                throw new Exception("É preciso adicionar {get; set;} a sua prop");
+            }
+        }
+        CurrentProp.Value = value;
     }
 }

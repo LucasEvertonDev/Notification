@@ -8,5 +8,5 @@ public interface INotifiable
 
 public interface INotifiableModel
 {
-    List<NotificationModel> GetFailures();
+    List<NotificationModel> GetNotifications();
 }

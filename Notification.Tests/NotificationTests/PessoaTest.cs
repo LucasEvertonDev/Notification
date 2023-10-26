@@ -106,7 +106,7 @@ public class PessoaTest : Notifiable
 
         var failues = pessoa.GetFailures();
 
-        pessoa.GetFailures().Select(a => a.Error).Should().Contain(Erros.Pessoa.EnderecosEObrigatorio);
+        pessoa.GetFailures().Should().Contain(Erros.Pessoa.EnderecosEObrigatorio);
     }
 
     [Fact]
@@ -154,7 +154,7 @@ public class PessoaTest : Notifiable
                 enderecos : enderecos
             );
 
-        var failures = pessoa.GetFailures().Select(a => new
+        var failures = pessoa.GetNotifications().Select(a => new
         {
             prop = a.NotificationInfo.PropInfo.MemberName,
             message = a.Error.message

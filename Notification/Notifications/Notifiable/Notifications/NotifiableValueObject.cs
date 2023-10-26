@@ -3,9 +3,10 @@ using Notification.Notifications;
 using Notification.Notifications.Notifiable.Notifications.Base;
 using Notification.Notifications.Notifiable.Steps.AfterSet;
 using Notification.Notifications.Notifiable.Steps.AfterValidationWhen;
+using Notification.Notifications.Services;
 using System.Linq.Expressions;
 
-namespace Architecture.Application.Core.Notifications.Notifiable.Notifications;
+namespace Notifications.Notifiable.Notifications;
 
 public partial class Notifiable<TEntity> : INotifiableModel
 {
@@ -18,11 +19,11 @@ public partial class Notifiable<TEntity> : INotifiableModel
     {
         this.SetValue(memberLamda, value);
 
-        for (var i = 0; i < value?.GetFailures()?.Count(); i++)
+        for (var i = 0; i < value?.GetNotifications()?.Count(); i++)
         {
-            var failure = value.GetFailures()[i];
+            var failure = value.GetNotifications()[i];
 
-            var notification = failure.Clone();
+            var notification = ListService.Clone(failure);
 
             notification.NotificationInfo.PropInfo.SetMemberNamePrefix(CurrentProp.MemberName);
 
