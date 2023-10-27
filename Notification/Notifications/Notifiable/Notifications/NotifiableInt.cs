@@ -22,11 +22,11 @@ public partial class Notifiable<TEntity> : INotifiableModel
         return new AfterSet<AfterValidationWhenObject>(Result.GetContext(), new NotificationInfo(CurrentProp, EntityInfo));
     }
 
-    protected AfterSet<AfterValidationWhenObject> Set(Expression<Func<TEntity, int>> memberLamda, int value)
+    protected AfterSet<AfterValidationWhenInt> Set(Expression<Func<TEntity, int>> memberLamda, int value)
     {
         this.SetValue(memberLamda, value);
 
-        return new AfterSet<AfterValidationWhenObject>(Result.GetContext(), new NotificationInfo(CurrentProp, EntityInfo));
+        return new AfterSet<AfterValidationWhenInt>(Result.GetContext(), new NotificationInfo(CurrentProp, EntityInfo));
     }
 
     protected AfterSet<AfterValidationWhenObject> Set(Expression<Func<TEntity, int?>> memberLamda, int? value)
