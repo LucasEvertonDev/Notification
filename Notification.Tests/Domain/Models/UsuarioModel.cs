@@ -47,6 +47,11 @@ public class Error
 
 public class UsuarioModel : Notifiable<UsuarioModel>
 {
+    public UsuarioModel()
+    {
+        
+    }
+
     public UsuarioModel(string strings, int ints, int? intNull, short int16, int int32, long int64, short? int16Null, int? int32Null, long? int64Null, DateTime dateTime, DateTime? dateTimeNull, bool boooelan, bool? boooelanNull, decimal decimalx, decimal? decimalNull, short shortx, short? shortxNull, long longx, long? longxNull)
     {
         Set(u => u.strings, strings).ValidateWhen().IsNullOrEmpty().AddFailure(Error.String);
@@ -68,6 +73,127 @@ public class UsuarioModel : Notifiable<UsuarioModel>
         Set(u => u.shortxNull, shortxNull).ValidateWhen().IsNull().AddFailure(Error.shortxNull);
         Set(u => u.longx, longx).ValidateWhen().Is(longx == 0).AddFailure(Error.longx);
         Set(u => u.longxNull, longxNull).ValidateWhen().IsNull().AddFailure(Error.longxNull);
+    }
+
+
+    public UsuarioModel CriarUsuario(string strings, int ints, int? intNull, short int16, int int32, long int64, short? int16Null, int? int32Null, long? int64Null, DateTime dateTime, DateTime? dateTimeNull, bool boooelan, bool? boooelanNull, decimal decimalx, decimal? decimalNull, short shortx, short? shortxNull, long longx, long? longxNull)
+    {
+        if (string.IsNullOrEmpty(strings))
+        {
+            Result.Failure<UsuarioModel>(u => u.strings, Error.String);
+        }
+
+        if (ints == 0)
+        {
+            Result.Failure<UsuarioModel>(u => u.ints, Error.Ints);
+        }
+
+        if (intNull == null)
+        {
+            Result.Failure<UsuarioModel>(u => u.intNull, Error.intNull);
+        }
+
+        if (int16 == 0)
+        {
+            Result.Failure<UsuarioModel>(u => u.int16, Error.int16);
+        }
+
+        if (int32 == 0)
+        {
+            Result.Failure<UsuarioModel>(u => u.int32, Error.int32);
+        }
+
+        if (int64 == 0)
+        {
+            Result.Failure<UsuarioModel>(u => u.int64, Error.int64);
+        }
+
+        if (int16Null == null)
+        {
+            Result.Failure<UsuarioModel>(u => u.int16Null, Error.int16Null);
+        }
+
+        if (int32Null == null)
+        {
+            Result.Failure<UsuarioModel>(u => u.int32Null, Error.int32Null);
+        }
+
+        if (int64Null == null)
+        {
+            Result.Failure<UsuarioModel>(u => u.int64Null, Error.int64Null);
+        }
+
+        if (dateTime == DateTime.MinValue)
+        {
+            Result.Failure<UsuarioModel>(u => u.DateTime, Error.DateTime);
+        }
+
+        if (dateTimeNull == null)
+        {
+            Result.Failure<UsuarioModel>(u => u.DateTimeNull, Error.DateTimeNull);
+        }
+
+        if (boooelan)
+        {
+            Result.Failure<UsuarioModel>(u => u.boooelan, Error.boooelan);
+        }
+
+        if (boooelanNull == null)
+        {
+            Result.Failure<UsuarioModel>(u => u.boooelanNull, Error.boooelanNull);
+        }
+
+        if (decimalx == 0)
+        {
+            Result.Failure<UsuarioModel>(u => u.decimalx, Error.decimalx);
+        }
+
+        if (decimalNull == null)
+        {
+            Result.Failure<UsuarioModel>(u => u.decimalNull, Error.decimalNull);
+        }
+
+        if (shortx == 0)
+        {
+            Result.Failure<UsuarioModel>(u => u.shortx, Error.shortx);
+        }
+
+        if (shortxNull == null)
+        {
+            Result.Failure<UsuarioModel>(u => u.shortxNull, Error.shortxNull);
+        }
+
+        if (longx == 0)
+        {
+            Result.Failure<UsuarioModel>(u => u.longx, Error.longx);
+        }
+
+        if (longxNull == null)
+        {
+            Result.Failure<UsuarioModel>(u => u.longxNull, Error.longxNull);
+        }
+
+        this.strings = strings;
+        this.ints = ints;
+        this.intNull = intNull;
+        this.int16 = int16;
+        this.int32 = int32;
+        this.int64 = int64;
+        this.int16Null = int16Null;
+        this.int32Null = int32Null;
+        this.int64Null = int64Null;
+        this.DateTime = dateTime;
+        this.DateTimeNull = dateTimeNull;
+        this.boooelan = boooelan;
+        this.boooelanNull = boooelanNull;
+        this.decimalx = decimalx;
+        this.decimalNull = decimalNull;
+        this.shortx = shortx;
+        this.shortxNull = shortxNull;
+        this.longx = longx;
+        this.longxNull = longxNull;
+
+        return this;
     }
 
     public string strings { get; private set; }
