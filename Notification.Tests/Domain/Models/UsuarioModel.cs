@@ -54,48 +54,48 @@ public class UsuarioModel : Notifiable<UsuarioModel>
 
     public UsuarioModel(string strings, int ints, int? intNull, short int16, int int32, long int64, short? int16Null, int? int32Null, long? int64Null, DateTime dateTime, DateTime? dateTimeNull, bool boooelan, bool? boooelanNull, decimal decimalx, decimal? decimalNull, short shortx, short? shortxNull, long longx, long? longxNull)
     {
-        Set(u => u.strings, strings).ValidateWhen().IsNullOrEmpty().AddFailure(Error.String);
-        Set(u => u.ints, ints).ValidateWhen().IsEquals(0).AddFailure(Error.Ints);
-        Set(u => u.intNull, intNull).ValidateWhen().IsNull().AddFailure(Error.intNull);
-        Set(u => u.int16, int16).ValidateWhen().IsEquals(0).AddFailure(Error.int16);
-        Set(u => u.int32, int32).ValidateWhen().IsEquals(0).AddFailure(Error.int32);
-        Set(u => u.int64, int64).ValidateWhen().IsEquals(0).AddFailure(Error.int64);
-        Set(u => u.int16Null, int16Null).ValidateWhen().IsNull().AddFailure(Error.int16Null);
-        Set(u => u.int32Null, int32Null).ValidateWhen().IsNull().AddFailure(Error.int32Null);
-        Set(u => u.int64Null, int64Null).ValidateWhen().IsNull().AddFailure(Error.int64Null);
-        Set(u => u.DateTime, dateTime).ValidateWhen().Is(DateTime == DateTime.MinValue).AddFailure(Error.DateTime);
-        Set(u => u.DateTimeNull, dateTimeNull).ValidateWhen().IsNull().AddFailure(Error.DateTimeNull);
-        Set(u => u.boooelan, boooelan).ValidateWhen().Is(boooelan).AddFailure(Error.boooelan);
-        Set(u => u.boooelanNull, boooelanNull).ValidateWhen().IsNull().AddFailure(Error.boooelanNull);
-        Set(u => u.decimalx, decimalx).ValidateWhen().Is(decimalx == 0).AddFailure(Error.decimalx);
-        Set(u => u.decimalNull, decimalNull).ValidateWhen().IsNull().AddFailure(Error.decimalNull);
-        Set(u => u.shortx, shortx).ValidateWhen().IsEquals(0).AddFailure(Error.shortx);
-        Set(u => u.shortxNull, shortxNull).ValidateWhen().IsNull().AddFailure(Error.shortxNull);
-        Set(u => u.longx, longx).ValidateWhen().IsEquals(0).AddFailure(Error.longx);
-        Set(u => u.longxNull, longxNull).ValidateWhen().IsNull().AddFailure(Error.longxNull);
+        Set(u => u.strings, strings).AndValidateWhen().IsNullOrEmpty().AddFailure(Error.String);
+        Set(u => u.ints, ints).AndValidateWhen().IsEquals(0).AddFailure(Error.Ints);
+        Set(u => u.intNull, intNull).AndValidateWhen().IsNull().AddFailure(Error.intNull);
+        Set(u => u.int16, int16).AndValidateWhen().IsEquals(0).AddFailure(Error.int16);
+        Set(u => u.int32, int32).AndValidateWhen().IsEquals(0).AddFailure(Error.int32);
+        Set(u => u.int64, int64).AndValidateWhen().IsEquals(0).AddFailure(Error.int64);
+        Set(u => u.int16Null, int16Null).AndValidateWhen().IsNull().AddFailure(Error.int16Null);
+        Set(u => u.int32Null, int32Null).AndValidateWhen().IsNull().AddFailure(Error.int32Null);
+        Set(u => u.int64Null, int64Null).AndValidateWhen().IsNull().AddFailure(Error.int64Null);
+        Set(u => u.DateTime, dateTime).AndValidateWhen().Is(DateTime == DateTime.MinValue).AddFailure(Error.DateTime);
+        Set(u => u.DateTimeNull, dateTimeNull).AndValidateWhen().IsNull().AddFailure(Error.DateTimeNull);
+        Set(u => u.boooelan, boooelan).AndValidateWhen().Is(boooelan).AddFailure(Error.boooelan);
+        Set(u => u.boooelanNull, boooelanNull).AndValidateWhen().IsNull().AddFailure(Error.boooelanNull);
+        Set(u => u.decimalx, decimalx).AndValidateWhen().Is(decimalx == 0).AddFailure(Error.decimalx);
+        Set(u => u.decimalNull, decimalNull).AndValidateWhen().IsNull().AddFailure(Error.decimalNull);
+        Set(u => u.shortx, shortx).AndValidateWhen().IsEquals(0).AddFailure(Error.shortx);
+        Set(u => u.shortxNull, shortxNull).AndValidateWhen().IsNull().AddFailure(Error.shortxNull);
+        Set(u => u.longx, longx).AndValidateWhen().IsEquals(0).AddFailure(Error.longx);
+        Set(u => u.longxNull, longxNull).AndValidateWhen().IsNull().AddFailure(Error.longxNull);
     }
 
     public UsuarioModel CriarUsuario2(string strings, int ints, int? intNull, short int16, int int32, long int64, short? int16Null, int? int32Null, long? int64Null, DateTime dateTime, DateTime? dateTimeNull, bool boooelan, bool? boooelanNull, decimal decimalx, decimal? decimalNull, short shortx, short? shortxNull, long longx, long? longxNull)
     {
-        Set(u => u.strings, strings).ValidateWhen().IsNullOrEmpty(Error.String);
-        Set(u => u.ints, ints).ValidateWhen().IsZero(Error.Ints);
-        Set(u => u.intNull, intNull).ValidateWhen().IsNull(Error.intNull);
-        Set(u => u.int16, int16).ValidateWhen().IsZero(Error.int16);
-        Set(u => u.int32, int32).ValidateWhen().IsZero(Error.int32);
-        Set(u => u.int64, int64).ValidateWhen().IsZero(Error.int64);
-        Set(u => u.int16Null, int16Null).ValidateWhen().IsNull(Error.int16Null);
-        Set(u => u.int32Null, int32Null).ValidateWhen().IsNull(Error.int32Null);
-        Set(u => u.int64Null, int64Null).ValidateWhen().IsNull(Error.int64Null);
-        Set(u => u.DateTime, dateTime).ValidateWhen().IsMinValue(Error.DateTime);
-        Set(u => u.DateTimeNull, dateTimeNull).ValidateWhen().IsNull(Error.DateTimeNull);
-        Set(u => u.boooelan, boooelan).ValidateWhen().Is(boooelan, Error.boooelan);
-        Set(u => u.boooelanNull, boooelanNull).ValidateWhen().IsNull(Error.boooelanNull);
-        Set(u => u.decimalx, decimalx).ValidateWhen().Is(decimalx == 0, Error.decimalx);
-        Set(u => u.decimalNull, decimalNull).ValidateWhen().IsNull(Error.decimalNull);
-        Set(u => u.shortx, shortx).ValidateWhen().IsZero(Error.shortx);
-        Set(u => u.shortxNull, shortxNull).ValidateWhen().IsNull(Error.shortxNull);
-        Set(u => u.longx, longx).ValidateWhen().IsZero(Error.longx);
-        Set(u => u.longxNull, longxNull).ValidateWhen().IsNull(Error.longxNull);
+        Set(u => u.strings, strings).AndValidateWhen().IsNullOrEmpty(Error.String);
+        Set(u => u.ints, ints).AndValidateWhen().IsZero(Error.Ints);
+        Set(u => u.intNull, intNull).AndValidateWhen().IsNull(Error.intNull);
+        Set(u => u.int16, int16).AndValidateWhen().IsZero(Error.int16);
+        Set(u => u.int32, int32).AndValidateWhen().IsZero(Error.int32);
+        Set(u => u.int64, int64).AndValidateWhen().IsZero(Error.int64);
+        Set(u => u.int16Null, int16Null).AndValidateWhen().IsNull(Error.int16Null);
+        Set(u => u.int32Null, int32Null).AndValidateWhen().IsNull(Error.int32Null);
+        Set(u => u.int64Null, int64Null).AndValidateWhen().IsNull(Error.int64Null);
+        Set(u => u.DateTime, dateTime).AndValidateWhen().IsMinValue(Error.DateTime);
+        Set(u => u.DateTimeNull, dateTimeNull).AndValidateWhen().IsNull(Error.DateTimeNull);
+        Set(u => u.boooelan, boooelan).AndValidateWhen().IsTrue(Error.boooelan);
+        Set(u => u.boooelanNull, boooelanNull).AndValidateWhen().IsNull(Error.boooelanNull);
+        Set(u => u.decimalx, decimalx).AndValidateWhen().IsZero(Error.decimalx);
+        Set(u => u.decimalNull, decimalNull).AndValidateWhen().IsNull(Error.decimalNull);
+        Set(u => u.shortx, shortx).AndValidateWhen().IsZero(Error.shortx);
+        Set(u => u.shortxNull, shortxNull).AndValidateWhen().IsNull(Error.shortxNull);
+        Set(u => u.longx, longx).AndValidateWhen().IsZero(Error.longx);
+        Set(u => u.longxNull, longxNull).AndValidateWhen().IsNull(Error.longxNull);
 
         return this;
     }

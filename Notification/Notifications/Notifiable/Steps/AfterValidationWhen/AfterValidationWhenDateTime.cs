@@ -25,15 +25,15 @@ public class AfterValidationWhenDateTime : AfterValidationWhen, IAfterValidation
             notificationInfo: _notificationInfo);
     }
 
-    public AddNotificationService<AfterValidationWhenInt> IsMinValue()
+    public AddNotificationService<AfterValidationWhenDateTime> IsMinValue()
     {
-        return new AddNotificationService<AfterValidationWhenInt>(
+        return new AddNotificationService<AfterValidationWhenDateTime>(
             notificationContext: _notificationContext,
             includeNotification: _notificationInfo.PropInfo.Value == DateTime.MinValue,
             notificationInfo: _notificationInfo);
     }
 
-    public AfterValidationWhenInt IsMinValue(FailureModel failureModel)
+    public AfterValidationWhenDateTime IsMinValue(FailureModel failureModel)
     {
         return AddNotificationService
            .AddFailure(
