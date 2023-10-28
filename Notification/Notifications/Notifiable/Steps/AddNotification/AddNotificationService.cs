@@ -27,3 +27,16 @@ public class AddNotificationService<TOut> where TOut : IAfterValidationWhen
         return (TOut)Activator.CreateInstance(typeof(TOut), _notificationContext, _notificationInfo);
     }
 }
+
+public class AddNotificationService
+{
+    public static TOut AddFailure<TOut>(TOut current, NotificationContext notificationContext, bool includeNotification, NotificationInfo notificationInfo, FailureModel erro)
+    {
+        if (includeNotification)
+        {
+            notificationContext.AddNotification(new NotificationModel(erro, notificationInfo));
+        }
+
+        return current;
+    }
+}

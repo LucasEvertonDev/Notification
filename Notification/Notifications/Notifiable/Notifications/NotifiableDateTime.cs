@@ -8,17 +8,17 @@ namespace Notifications.Notifiable.Notifications;
 
 public partial class Notifiable<TEntity> : INotifiableModel
 {
-    protected AfterSet<AfterValidationWhenObject> Set(Expression<Func<TEntity, DateTime>> memberLamda, DateTime value)
+    protected AfterSet<AfterValidationWhenDateTime> Set(Expression<Func<TEntity, DateTime>> memberLamda, DateTime value)
     {
         this.SetValue(memberLamda, value);
 
-        return new AfterSet<AfterValidationWhenObject>(Result.GetContext(), new NotificationInfo(CurrentProp, EntityInfo));
+        return new AfterSet<AfterValidationWhenDateTime>(Result.GetContext(), new NotificationInfo(CurrentProp, EntityInfo));
     }
 
-    protected AfterSet<AfterValidationWhenObject> Set(Expression<Func<TEntity, DateTime?>> memberLamda, DateTime? value)
+    protected AfterSet<AfterValidationWhenDateTime> Set(Expression<Func<TEntity, DateTime?>> memberLamda, DateTime? value)
     {
         this.SetValue(memberLamda, value);
 
-        return new AfterSet<AfterValidationWhenObject>(Result.GetContext(), new NotificationInfo(CurrentProp, EntityInfo));
+        return new AfterSet<AfterValidationWhenDateTime>(Result.GetContext(), new NotificationInfo(CurrentProp, EntityInfo));
     }
 }

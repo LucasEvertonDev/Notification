@@ -8,18 +8,18 @@ namespace Notifications.Notifiable.Notifications;
 
 public partial class Notifiable<TEntity> : INotifiableModel
 {
-    protected AfterSet<AfterValidationWhenObject> Set(Expression<Func<TEntity, short>> memberLamda, short value)
+    protected AfterSet< AfterValidationWhenInt> Set(Expression<Func<TEntity, short>> memberLamda, short value)
     {
         this.SetValue(memberLamda, value);
 
-        return new AfterSet<AfterValidationWhenObject>(Result.GetContext(), new NotificationInfo(CurrentProp, EntityInfo));
+        return new AfterSet< AfterValidationWhenInt>(Result.GetContext(), new NotificationInfo(CurrentProp, EntityInfo));
     }
 
-    protected AfterSet<AfterValidationWhenObject> Set(Expression<Func<TEntity, short?>> memberLamda, short? value)
+    protected AfterSet< AfterValidationWhenInt> Set(Expression<Func<TEntity, short?>> memberLamda, short? value)
     {
         this.SetValue(memberLamda, value);
 
-        return new AfterSet<AfterValidationWhenObject>(Result.GetContext(), new NotificationInfo(CurrentProp, EntityInfo));
+        return new AfterSet< AfterValidationWhenInt>(Result.GetContext(), new NotificationInfo(CurrentProp, EntityInfo));
     }
 
     protected AfterSet<AfterValidationWhenInt> Set(Expression<Func<TEntity, int>> memberLamda, int value)
@@ -29,25 +29,24 @@ public partial class Notifiable<TEntity> : INotifiableModel
         return new AfterSet<AfterValidationWhenInt>(Result.GetContext(), new NotificationInfo(CurrentProp, EntityInfo));
     }
 
-    protected AfterSet<AfterValidationWhenObject> Set(Expression<Func<TEntity, int?>> memberLamda, int? value)
+    protected AfterSet< AfterValidationWhenInt> Set(Expression<Func<TEntity, int?>> memberLamda, int? value)
     {
         this.SetValue(memberLamda, value);
 
-        return new AfterSet<AfterValidationWhenObject>(Result.GetContext(), new NotificationInfo(CurrentProp, EntityInfo));
+        return new AfterSet< AfterValidationWhenInt>(Result.GetContext(), new NotificationInfo(CurrentProp, EntityInfo));
     }
 
-    protected AfterSet<AfterValidationWhenObject> Set(Expression<Func<TEntity, long>> memberLamda, long value)
+    protected AfterSet< AfterValidationWhenInt> Set(Expression<Func<TEntity, long>> memberLamda, long value)
     {
         this.SetValue(memberLamda, value);
 
-        return new AfterSet<AfterValidationWhenObject>(Result.GetContext(), new NotificationInfo(CurrentProp, EntityInfo));
+        return new AfterSet< AfterValidationWhenInt>(Result.GetContext(), new NotificationInfo(CurrentProp, EntityInfo));
     }
 
-    protected AfterSet<AfterValidationWhenObject> Set(Expression<Func<TEntity, long?>> memberLamda, long? value)
+    protected AfterSet< AfterValidationWhenInt> Set(Expression<Func<TEntity, long?>> memberLamda, long? value)
     {
         this.SetValue(memberLamda, value);
 
-        return new AfterSet<AfterValidationWhenObject>(Result.GetContext(), new NotificationInfo(CurrentProp, EntityInfo));
+        return new AfterSet< AfterValidationWhenInt>(Result.GetContext(), new NotificationInfo(CurrentProp, EntityInfo));
     }
-
 }

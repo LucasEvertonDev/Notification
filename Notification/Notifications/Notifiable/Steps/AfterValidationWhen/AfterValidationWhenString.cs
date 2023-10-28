@@ -6,60 +6,107 @@ namespace Notification.Notifications.Notifiable.Steps.AfterValidationWhen;
 
 public class AfterValidationWhenString : AfterValidationWhen, IAfterValidationWhen
 {
-    protected string _currentvalue { get; set; }
-
     public AfterValidationWhenString(NotificationContext notificationContext, NotificationInfo notificationInfo) : base(notificationContext, notificationInfo)
     {
-        _currentvalue = notificationInfo.PropInfo.Value;
     }
 
     public AddNotificationService<AfterValidationWhenString> Is(bool ruleFor)
     {
-        return new AddNotificationService<AfterValidationWhenString>(_notificationContext, ruleFor, _notificationInfo);
+        return new AddNotificationService<AfterValidationWhenString>(
+            notificationContext: _notificationContext,
+            includeNotification: ruleFor,
+            notificationInfo: _notificationInfo);
     }
 
     public AddNotificationService<AfterValidationWhenString> IsInvalidEmail()
     {
-        return new AddNotificationService<AfterValidationWhenString>(_notificationContext, !Regex.IsMatch(_currentvalue, @"^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$"), _notificationInfo);
+        return new AddNotificationService<AfterValidationWhenString>(
+            notificationContext: _notificationContext,
+            includeNotification: !Regex.IsMatch(_notificationInfo.PropInfo.Value, @"^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$"),
+            notificationInfo: _notificationInfo);
     }
 
     public AddNotificationService<AfterValidationWhenString> IsNullOrEmpty()
     {
-        return new AddNotificationService<AfterValidationWhenString>(_notificationContext, string.IsNullOrEmpty(_currentvalue), _notificationInfo);
+        return new AddNotificationService<AfterValidationWhenString>(
+            notificationContext: _notificationContext,
+            includeNotification: string.IsNullOrEmpty(_notificationInfo.PropInfo.Value),
+            notificationInfo: _notificationInfo);
     }
 
     public AddNotificationService<AfterValidationWhenString> MinLength(int minLenght)
     {
-        return new AddNotificationService<AfterValidationWhenString>(_notificationContext, _currentvalue?.Length < minLenght, _notificationInfo);
+        return new AddNotificationService<AfterValidationWhenString>(
+            notificationContext: _notificationContext,
+            includeNotification: _notificationInfo.PropInfo.Value?.Length < minLenght,
+            notificationInfo: _notificationInfo);
     }
 
     public AddNotificationService<AfterValidationWhenString> MaxLenght(int maxLenght)
     {
-        return new AddNotificationService<AfterValidationWhenString>(_notificationContext, _currentvalue?.Length > maxLenght, _notificationInfo);
+        return new AddNotificationService<AfterValidationWhenString>(
+            notificationContext: _notificationContext,
+            includeNotification: _notificationInfo.PropInfo.Value?.Length > maxLenght,
+            notificationInfo: _notificationInfo);
     }
 
     public AfterValidationWhenString Is(bool ruleFor, FailureModel failureModel)
     {
-        return new AddNotificationService<AfterValidationWhenString>(_notificationContext, ruleFor, _notificationInfo).AddFailure(failureModel);
+        return AddNotificationService
+            .AddFailure(
+                current: this,
+                notificationContext: _notificationContext,
+                includeNotification: ruleFor,
+                notificationInfo: _notificationInfo,
+                erro: failureModel
+            );
     }
 
     public AfterValidationWhenString IsInvalidEmail(FailureModel failureModel)
     {
-        return new AddNotificationService<AfterValidationWhenString>(_notificationContext, !Regex.IsMatch(_currentvalue, @"^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$"), _notificationInfo).AddFailure(failureModel);
+        return AddNotificationService
+            .AddFailure(
+                current: this,
+                notificationContext: _notificationContext,
+                includeNotification: !Regex.IsMatch(_notificationInfo.PropInfo.Value, @"^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$"),
+                notificationInfo: _notificationInfo,
+                erro: failureModel
+            );
     }
 
     public AfterValidationWhenString IsNullOrEmpty(FailureModel failureModel)
     {
-        return new AddNotificationService<AfterValidationWhenString>(_notificationContext, string.IsNullOrEmpty(_currentvalue), _notificationInfo).AddFailure(failureModel);
+        return AddNotificationService
+            .AddFailure(
+                current: this,
+                notificationContext: _notificationContext,
+                includeNotification: string.IsNullOrEmpty(_notificationInfo.PropInfo.Value),
+                notificationInfo: _notificationInfo,
+                erro: failureModel
+            );
     }
 
     public AfterValidationWhenString MinLength(int minLenght, FailureModel failureModel)
     {
-        return new AddNotificationService<AfterValidationWhenString>(_notificationContext, _currentvalue?.Length < minLenght, _notificationInfo).AddFailure(failureModel);
+        return AddNotificationService
+             .AddFailure(
+                 current: this,
+                 notificationContext: _notificationContext,
+                 includeNotification: _notificationInfo.PropInfo.Value?.Length < minLenght,
+                 notificationInfo: _notificationInfo,
+                 erro: failureModel
+             );
     }
 
     public AfterValidationWhenString MaxLenght(int maxLenght, FailureModel failureModel)
     {
-        return new AddNotificationService<AfterValidationWhenString>(_notificationContext, _currentvalue?.Length > maxLenght, _notificationInfo).AddFailure(failureModel);
+        return AddNotificationService
+           .AddFailure(
+               current: this,
+               notificationContext: _notificationContext,
+               includeNotification: _notificationInfo.PropInfo.Value?.Length > maxLenght,
+               notificationInfo: _notificationInfo,
+               erro: failureModel
+           );
     }
 }
