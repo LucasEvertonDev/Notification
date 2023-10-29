@@ -10,7 +10,7 @@ public class Logradouro : BaseEntity<Logradouro>
     public Logradouro CriarLogradouro(string logradouro, List<Rua> ruas)
     {
         Set(logradouro => logradouro.Nome, logradouro)
-            .AndValidateWhen()
+            .AndValidate()
             .IsNullOrEmpty()
             .AddFailure(new FailureModel("logradouro", "logradouro é obrigatório"));
 
@@ -27,7 +27,7 @@ public class Rua : BaseEntity<Rua>
     public Rua CriarRua(string Rua)
     {
         Set(Rua => Rua.Nome, Rua)
-            .AndValidateWhen()
+            .AndValidate()
             .IsNullOrEmpty()
             .AddFailure(new FailureModel("Rua", "Rua é obrigatório"));
 

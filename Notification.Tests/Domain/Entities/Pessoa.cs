@@ -21,19 +21,19 @@ public partial class Pessoa : BaseEntity<Pessoa>
             ));
 
         Set(pessoa => pessoa.Email, email)
-            .AndValidateWhen()
+            .AndValidate()
             .IsNullOrEmpty().AddFailure(Erros.Pessoa.EmailObrigatorio)
             .IsInvalidEmail().AddFailure(Erros.Pessoa.EmailInvalido);
 
         Set(pessoa => pessoa.DataNascimento, dataNascimento);
 
         Set(pessoa => pessoa.Endereco, endereco)
-            .AndValidateWhen()
+            .AndValidate()
             .IsNull()
             .AddFailure(Erros.Pessoa.EnderecoEObrigatorio);
 
         Set(pessoa => pessoa.Enderecos, enderecos)
-            .AndValidateWhen()
+            .AndValidate()
             .IsNull()
             .AddFailure(Erros.Pessoa.EnderecosEObrigatorio);
 
