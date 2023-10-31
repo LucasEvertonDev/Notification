@@ -19,6 +19,9 @@ public class Roda : Notifiable<Roda>
     public Roda()
     {
         var parafusos = new List<Parafuso>() { new Parafuso(), new Parafuso() };
+        Ensure(string.Empty).
+
+
 
         Set(r => r.Pneu, string.Empty).AndValidate()
             .IsNullOrEmpty(new Notifications.FailureModel("", "Pneu é obrigatório"));

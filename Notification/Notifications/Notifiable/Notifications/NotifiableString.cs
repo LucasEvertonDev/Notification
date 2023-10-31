@@ -6,12 +6,17 @@ using System.Linq.Expressions;
 
 namespace Notifications.Notifiable.Notifications;
 
-public partial class Notifiable<TEntity> : INotifiableModel
+public partial class Notifiable<TEntity> : INotifiableModel where TEntity : INotifiableModel
 {
     protected AfterSet<AfterValidationWhenString> Set(Expression<Func<TEntity, string>> memberLamda, string value)
     {
         this.SetValue(memberLamda, value);
 
         return new AfterSet<AfterValidationWhenString>(Result.GetContext(), new NotificationInfo(CurrentProp, EntityInfo));
+    }
+
+    protected AfterEnsure<TEntity> Ensure(string valor)
+    {
+        return new AfterEnsure<TEntity>(new NotificationInfo(new PropInfo() { Value = valor }, EntityInfo));
     }
 }
