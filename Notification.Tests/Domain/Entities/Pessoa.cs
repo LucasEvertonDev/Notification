@@ -1,5 +1,4 @@
-﻿using Notification.Tests.Domain;
-using Notification.Tests.Domain.ValueObjects;
+﻿using Notification.Tests.Domain.ValueObjects;
 
 namespace Notification.Tests.Domain.Entities;
 
@@ -9,33 +8,25 @@ public partial class Pessoa : BaseEntity<Pessoa>
     public string Email { get; private set; }
     public DateTime? DataNascimento { get; private set; }
     public Endereco Endereco { get; private set; }
-
     public List<Endereco> Enderecos { get; private set; } = new List<Endereco>();
 
     public Pessoa CriarPessoa(string primeiroNome, string sobrenome, string email, DateTime? dataNascimento, Endereco endereco, List<Endereco> enderecos = null)
     {
-        Set(pessoa => pessoa.Nome, new Nome()
-            .CriarNome(
-                primeiroNome: primeiroNome,
-                sobrenome: sobrenome
-            ));
+        var nome = new Nome(primeiroNome, sobrenome);
 
-        Set(pessoa => pessoa.Email, email)
-            .AndValidate()
-            .IsNullOrEmpty().AddFailure(Erros.Pessoa.EmailObrigatorio)
-            .IsInvalidEmail().AddFailure(Erros.Pessoa.EmailInvalido);
+        Ensure(nome).ForContext(p => p.Nome).NoFailures();
 
-        Set(pessoa => pessoa.DataNascimento, dataNascimento);
+        Ensure(email).ForContext(p => p.Email).NotNullOrEmpty(Erros.Pessoa.EmailObrigatorio).EmailAddress(Erros.Pessoa.EmailInvalido);
 
-        Set(pessoa => pessoa.Endereco, endereco)
-            .AndValidate()
-            .IsNull()
-            .AddFailure(Erros.Pessoa.EnderecoEObrigatorio);
+        Ensure(endereco).ForContext(p => p.Endereco).NotNull(Erros.Pessoa.EnderecoEObrigatorio).NoFailures();
 
-        Set(pessoa => pessoa.Enderecos, enderecos)
-            .AndValidate()
-            .IsNull()
-            .AddFailure(Erros.Pessoa.EnderecosEObrigatorio);
+        Ensure(enderecos).ForContext(p => p.Enderecos).NotNull(Erros.Pessoa.EnderecosEObrigatorio).NoFailures();
+   
+        this.Nome = nome;
+        this.Email = email;
+        this.DataNascimento = dataNascimento;
+        this.Endereco = endereco;
+        this.Enderecos = enderecos;
 
         return this;
     }

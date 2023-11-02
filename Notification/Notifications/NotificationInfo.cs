@@ -20,7 +20,7 @@ public class PropInfo
 {
     public dynamic Value { get; set; }
 
-    public string MemberName { get; set; }
+    public string MemberName { get; set; } = string.Empty;
 
     public void SetMemberNamePrefix(string prefix)
     {

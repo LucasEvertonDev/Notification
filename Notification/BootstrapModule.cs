@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Notification.Notifications.Context;
 
-namespace Architecture.Application.Core;
+namespace Notification;
 
 public static class BootstrapModule
 {

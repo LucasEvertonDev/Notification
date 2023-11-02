@@ -33,7 +33,7 @@ public class ResultService
         NotificationContext.AddNotification(new NotificationModel(failure, notificationInfo));
     }
 
-    private bool ContainsProperty(object obj, string name) => obj.GetType().GetProperty(name) != null;
+    private static bool ContainsProperty(object obj, string name) => obj.GetType().GetProperty(name) != null;
 
     public void Failure<T>(Expression<Func<T, dynamic>> exp, FailureModel failure) where T : INotifiableModel
     {
@@ -47,7 +47,7 @@ public class ResultService
             new PropInfo()
             {
                 Value = null,
-                MemberName = getName(exp)
+                MemberName = TranslateLambda(exp)
             },
             new EntityInfo()
             {
@@ -59,7 +59,7 @@ public class ResultService
         NotificationContext.AddNotification(new NotificationModel(failure, notificationInfo));
     }
 
-    private string getName(dynamic lambda)
+    public static string TranslateLambda(dynamic lambda)
     {
         List<string> names = new List<string>();
         var memberSelectorExpression = lambda.Body as MemberExpression;

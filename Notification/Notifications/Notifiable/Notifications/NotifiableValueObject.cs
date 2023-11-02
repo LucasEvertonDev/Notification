@@ -1,56 +1,18 @@
-﻿using Notification.Extensions;
-using Notification.Notifications;
+﻿using Notification.Notifications;
 using Notification.Notifications.Notifiable.Notifications.Base;
-using Notification.Notifications.Notifiable.Steps.AfterSet;
-using Notification.Notifications.Notifiable.Steps.AfterValidationWhen;
-using Notification.Notifications.Services;
-using System.Linq.Expressions;
+using Notification.Notifications.Notifiable.Steps.AfterEnsure;
 
 namespace Notifications.Notifiable.Notifications;
 
 public partial class Notifiable<TEntity> : INotifiableModel
 {
-    /// <summary>
-    ///  Quando record as notificaçoes são integradas de forma interna 
-    /// </summary>
-    /// <param name="memberLamda"></param>
-    /// <param name="value"></param>
-    protected AfterSet<AfterValidationWhenObject> Set(Expression<Func<TEntity, INotifiableModel>> memberLamda, INotifiableModel value)
+    protected AfterEnsureObject<TEntity> Ensure(INotifiableModel valor)
     {
-        this.SetValue(memberLamda, value);
-
-        for (var i = 0; i < value?.GetNotifications()?.Count(); i++)
-        {
-            var failure = value.GetNotifications()[i];
-
-            var notification = ListService.Clone(failure);
-
-            notification.NotificationInfo.PropInfo.SetMemberNamePrefix(CurrentProp.MemberName);
-
-            this.Result.GetContext().AddNotification(notification);
-        }
-
-        return new AfterSet<AfterValidationWhenObject>(Result.GetContext(), new NotificationInfo(CurrentProp, EntityInfo));
+        return new AfterEnsureObject<TEntity>(Result.GetContext(), new NotificationInfo(new PropInfo() { Value = valor }, EntityInfo));
     }
 
-    /// <summary>
-    ///  Quando record as notificaçoes são integradas de forma interna 
-    /// </summary>
-    /// <param name="memberLamda"></param>
-    /// <param name="value"></param>
-    protected AfterSet<AfterValidationWhenObject> Set<T>(Expression<Func<TEntity, List<T>>> memberLamda, List<T> value) where T : INotifiableModel
+    protected AfterEnsureList<TEntity> Ensure<TEntityCollection>(List<TEntityCollection> valor) where TEntityCollection : INotifiableModel
     {
-        this.SetValue(memberLamda, value);
-
-        var failures = value.GetNotifications(CurrentProp.MemberName);
-
-        for (var i = 0; i < failures?.Count; i++)
-        {
-            var failure = failures[i];
-
-            this.Result.GetContext().AddNotification(failure);
-        }
-
-        return new AfterSet<AfterValidationWhenObject>(Result.GetContext(), new NotificationInfo(CurrentProp, EntityInfo));
+        return new AfterEnsureList<TEntity> (Result.GetContext(), new NotificationInfo(new PropInfo() { Value = valor }, EntityInfo));
     }
 }
