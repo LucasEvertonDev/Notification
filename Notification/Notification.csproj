@@ -13,6 +13,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Notifications\Notifiable\Steps\AfterEnsure\AfterValidationWhen.cs" />
+    <Compile Remove="Notifications\Notifiable\Steps\AfterEnsure\AfterValidationWhenBool.cs" />
+    <Compile Remove="Notifications\Notifiable\Steps\AfterEnsure\AfterValidationWhenDateTime.cs" />
+    <Compile Remove="Notifications\Notifiable\Steps\AfterEnsure\AfterValidationWhenDecimal.cs" />
+    <Compile Remove="Notifications\Notifiable\Steps\AfterEnsure\AfterValidationWhenInt.cs" />
+    <Compile Remove="Notifications\Notifiable\Steps\AfterEnsure\AfterValidationWhenObject.cs" />
+    <Compile Remove="Notifications\Notifiable\Steps\AfterEnsure\AfterValidationWhenString.cs" />
+    <Compile Remove="Notifications\Notifiable\Steps\AfterEnsure\IAfterValidationWhen.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>

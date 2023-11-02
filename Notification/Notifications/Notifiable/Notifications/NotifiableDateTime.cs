@@ -1,24 +1,13 @@
 ﻿using Notification.Notifications;
 using Notification.Notifications.Notifiable.Notifications.Base;
-using Notification.Notifications.Notifiable.Steps.AfterSet;
-using Notification.Notifications.Notifiable.Steps.AfterValidationWhen;
-using System.Linq.Expressions;
+using Notification.Notifications.Notifiable.Steps.AfterEnsure;
 
 namespace Notifications.Notifiable.Notifications;
 
 public partial class Notifiable<TEntity> : INotifiableModel
 {
-    protected AfterSet<AfterValidationWhenDateTime> Set(Expression<Func<TEntity, DateTime>> memberLamda, DateTime value)
+    protected AfterEnsureDatetime<TEntity> Ensure(DateTime? valor)
     {
-        this.SetValue(memberLamda, value);
-
-        return new AfterSet<AfterValidationWhenDateTime>(Result.GetContext(), new NotificationInfo(CurrentProp, EntityInfo));
-    }
-
-    protected AfterSet<AfterValidationWhenDateTime> Set(Expression<Func<TEntity, DateTime?>> memberLamda, DateTime? value)
-    {
-        this.SetValue(memberLamda, value);
-
-        return new AfterSet<AfterValidationWhenDateTime>(Result.GetContext(), new NotificationInfo(CurrentProp, EntityInfo));
+        return new AfterEnsureDatetime<TEntity>(Result.GetContext(), new NotificationInfo(new PropInfo() { Value = valor }, EntityInfo));
     }
 }

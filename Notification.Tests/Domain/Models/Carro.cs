@@ -8,7 +8,9 @@ public class Carro : Notifiable<Carro>
     {
         var rodas = new List<Roda>() { new Roda(), new Roda(), new Roda(), new Roda() };
 
-        Set(c => c.Rodas, rodas);
+        Ensure(rodas).ForContext(c => c.Rodas).NoFailures();
+
+        this.Rodas = rodas;
     }
 
     public List<Roda> Rodas { get; set; } = new List<Roda>();
@@ -20,13 +22,16 @@ public class Roda : Notifiable<Roda>
     {
         var parafusos = new List<Parafuso>() { new Parafuso(), new Parafuso() };
 
-        Set(r => r.Pneu, string.Empty).AndValidate()
-            .IsNullOrEmpty(new Notifications.FailureModel("", "Pneu é obrigatório"));
+        Ensure(string.Empty).ForContext(c => c.Pneu).NotNullOrEmpty(new Notifications.FailureModel("", "Pneu é obrigatório"));
 
-        Set(r => r.Aro, string.Empty).AndValidate()
-             .IsNullOrEmpty(new Notifications.FailureModel("", "Aro é obrigatório"));
+        Ensure(string.Empty).ForContext(c => c.Aro).NotNullOrEmpty(new Notifications.FailureModel("", "Aro é obrigatório"));
 
-        Set(r => r.Parafusos, parafusos);
+        Ensure(parafusos).ForContext(c => c.Parafusos).NoFailures();
+
+
+        this.Aro = "";
+        this.Pneu = "";
+        this.Parafusos = parafusos;
     }
 
     public string Pneu { get; set; }
@@ -40,11 +45,12 @@ public class Parafuso : Notifiable<Parafuso>
 {
     public Parafuso()
     {
-        Set(p => p.Porca, string.Empty).AndValidate()
-            .IsNullOrEmpty(new Notifications.FailureModel("", "Porca é obrigatório"));
+        Ensure(string.Empty).ForContext(c => c.Porca).NotNullOrEmpty(new Notifications.FailureModel("", "Porca é obrigatório"));
 
-        Set(p => p.Tamanho, string.Empty).AndValidate()
-            .IsNullOrEmpty(new Notifications.FailureModel("", "Tamanho é obrigatório"));
+        Ensure(string.Empty).ForContext(c => c.Tamanho).NotNullOrEmpty(new Notifications.FailureModel("", "Tamanho é obrigatório"));
+
+        this.Tamanho = "";
+        this.Porca = "";
     }
 
     public string Tamanho { get; set; }

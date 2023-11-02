@@ -1,17 +1,13 @@
 ﻿using Notification.Notifications;
 using Notification.Notifications.Notifiable.Notifications.Base;
-using Notification.Notifications.Notifiable.Steps.AfterSet;
-using Notification.Notifications.Notifiable.Steps.AfterValidationWhen;
-using System.Linq.Expressions;
+using Notification.Notifications.Notifiable.Steps.AfterEnsure;
 
 namespace Notifications.Notifiable.Notifications;
 
 public partial class Notifiable<TEntity> : INotifiableModel
 {
-    protected AfterSet<AfterValidationWhenObject> Set(Expression<Func<TEntity, Guid>> memberLamda, Guid value)
+    protected AfterEnsureGuid<TEntity> Ensure(Guid valor)
     {
-        this.SetValue(memberLamda, value);
-
-        return new AfterSet<AfterValidationWhenObject>(Result.GetContext(), new NotificationInfo(CurrentProp, EntityInfo));
+        return new AfterEnsureGuid<TEntity>(Result.GetContext(), new NotificationInfo(new PropInfo() { Value = valor }, EntityInfo));
     }
 }
