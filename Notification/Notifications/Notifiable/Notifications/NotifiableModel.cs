@@ -14,7 +14,8 @@ public partial class Notifiable<TEntity> : INotifiableModel
     private EntityInfo EntityInfo => new EntityInfo()
     {
         Name = typeof(TEntity).Name,
-        Namespace = typeof(TEntity).Namespace
+        Namespace = typeof(TEntity).Namespace,
+        NotificationType = Notification.Notifications.Enum.NotificationType.DomainNotification
     };
 
     public Notifiable()

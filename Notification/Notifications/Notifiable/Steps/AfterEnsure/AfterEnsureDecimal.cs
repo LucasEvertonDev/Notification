@@ -30,16 +30,28 @@ public class AfterEnsureDecimal<TEntity>
     /// <param name=""></param>
     /// <param name="failureModel"></param>
     /// <returns></returns>
-    public AfterEnsureDecimal<TEntity> Must(Func<bool> func, FailureModel failureModel)
+    public AfterEnsureDecimal<TEntity> Must(Func<Decimal? ,bool> func, FailureModel failureModel)
     {
         return AddNotificationService
            .AddFailure(
                current: this,
                notificationContext: _notificationContext,
-               includeNotification: !func(),
+               includeNotification: !func(_notificationInfo.PropInfo.Value),
                notificationInfo: _notificationInfo,
                erro: failureModel
            );
+    }
+
+    public AfterEnsureDecimal<TEntity> NotNull(FailureModel failureModel)
+    {
+        return AddNotificationService
+            .AddFailure(
+                current: this,
+                notificationContext: _notificationContext,
+                includeNotification: _notificationInfo.PropInfo.Value == null,
+                notificationInfo: _notificationInfo,
+                erro: failureModel
+            );
     }
 
     public AfterEnsureDecimal<TEntity> Equals(decimal? value, FailureModel failureModel)
@@ -60,7 +72,7 @@ public class AfterEnsureDecimal<TEntity>
             .AddFailure(
                 current: this,
                 notificationContext: _notificationContext,
-                includeNotification: _notificationInfo.PropInfo.Value < start || _notificationInfo.PropInfo.Value > end,
+                includeNotification: !(_notificationInfo.PropInfo.Value >= start && _notificationInfo.PropInfo.Value <= end),
                 notificationInfo: _notificationInfo,
                 erro: failureModel
             );

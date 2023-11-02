@@ -29,13 +29,13 @@ public class AfterEnsureInt<TEntity>
     /// <param name=""></param>
     /// <param name="failureModel"></param>
     /// <returns></returns>
-    public AfterEnsureInt<TEntity> Must(Func<bool> func, FailureModel failureModel)
+    public AfterEnsureInt<TEntity> Must(Func<long?, bool> func, FailureModel failureModel)
     {
         return AddNotificationService
            .AddFailure(
                current: this,
                notificationContext: _notificationContext,
-               includeNotification: !func(),
+               includeNotification: !func(_notificationInfo.PropInfo.Value),
                notificationInfo: _notificationInfo,
                erro: failureModel
            );
@@ -71,7 +71,7 @@ public class AfterEnsureInt<TEntity>
             .AddFailure(
                 current: this,
                 notificationContext: _notificationContext,
-                includeNotification: _notificationInfo.PropInfo.Value < start || _notificationInfo.PropInfo.Value > end,
+                includeNotification: !(_notificationInfo.PropInfo.Value >= start && _notificationInfo.PropInfo.Value <= end),
                 notificationInfo: _notificationInfo,
                 erro: failureModel
             );
@@ -89,6 +89,8 @@ public class AfterEnsureInt<TEntity>
             );
     }
 
+
+    ///Maior que 
     public AfterEnsureInt<TEntity> GreaterThan(long? value, FailureModel failureModel)
     {
         return AddNotificationService
@@ -113,6 +115,7 @@ public class AfterEnsureInt<TEntity>
             );
     }
 
+    ///Menor que
     public AfterEnsureInt<TEntity> LessThan(long? value, FailureModel failureModel)
     {
         return AddNotificationService

@@ -3,6 +3,8 @@ using Newtonsoft.Json;
 using Notification.Extensions;
 using Notification.Notifications;
 using Notification.Notifications.Notifiable.Notifications;
+using Notification.Tests.Domain;
+using Notification.Tests.Domain.Entities;
 using Notification.Tests.Domain.Models;
 
 namespace Notification.Tests.NotificationTests;
@@ -47,6 +49,5 @@ public class CarroTest : Notifiable
 
         json.Equals(jsonOld).Should().BeTrue();
     }
-
 }
  
