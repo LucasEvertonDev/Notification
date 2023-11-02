@@ -30,13 +30,13 @@ public class AfterEnsureString<TEntity>
     /// <param name=""></param>
     /// <param name="failureModel"></param>
     /// <returns></returns>
-    public AfterEnsureString<TEntity> Must(Func<bool> func, FailureModel failureModel)
+    public AfterEnsureString<TEntity> Must(Func<string, bool> func, FailureModel failureModel)
     {
         return AddNotificationService
            .AddFailure(
                current: this,
                notificationContext: _notificationContext,
-               includeNotification: !func(),
+               includeNotification: !func(_notificationInfo.PropInfo.Value),
                notificationInfo: _notificationInfo,
                erro: failureModel
            );
@@ -101,19 +101,19 @@ public class AfterEnsureString<TEntity>
              .AddFailure(
                  current: this,
                  notificationContext: _notificationContext,
-                 includeNotification: _notificationInfo.PropInfo.Value?.Length <= maxLenght,
+                 includeNotification: !(_notificationInfo.PropInfo.Value?.Length <= maxLenght),
                  notificationInfo: _notificationInfo,
                  erro: failureModel
              );
     }
 
-    public AfterEnsureString<TEntity> MinimumLenght(int maxLenght, FailureModel failureModel)
+    public AfterEnsureString<TEntity> MinimumLenght(int minlenght, FailureModel failureModel)
     {
         return AddNotificationService
            .AddFailure(
                current: this,
                notificationContext: _notificationContext,
-               includeNotification: _notificationInfo.PropInfo.Value?.Length >= maxLenght,
+               includeNotification: !(_notificationInfo.PropInfo.Value?.Length >= minlenght),
                notificationInfo: _notificationInfo,
                erro: failureModel
            );
