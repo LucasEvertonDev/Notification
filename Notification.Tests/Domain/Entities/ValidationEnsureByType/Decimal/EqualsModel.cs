@@ -24,11 +24,11 @@ public class EqualsModel : Notifiable<EqualsModel>
         Ensure(valor).ForContext(e => e.EqualsError).Equals(10, EqualsDecimalErros.EqualsSuccess);
     }
 
-    public long NotEqualsSuccess { get; set; }
+    public decimal NotEqualsSuccess { get; set; }
 
-    public long EqualsError { get; set; }
+    public decimal EqualsError { get; set; }
 
-    public long EqualsSuccess { get; set; }
+    public decimal EqualsSuccess { get; set; }
 
-    public long NotEqualsError { get; set; }
+    public decimal NotEqualsError { get; set; }
 }

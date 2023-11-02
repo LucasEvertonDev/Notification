@@ -32,14 +32,14 @@ public class LessThanModel : Notifiable<LessThanModel>
         Ensure(valor5).ForContext(e => e.LessThanOrEqualToError).LessThanOrEqualTo(10, LessThanErros.LessThanOrEqualToError);
     }
 
-    public long LessThanSuccess { get; set; }
+    public decimal LessThanSuccess { get; set; }
 
-    public long LessThanError { get; set; }
+    public decimal LessThanError { get; set; }
 
-    public long LessThanOrEqualTo { get; set; }
+    public decimal LessThanOrEqualTo { get; set; }
 
-    public long LessThanOrEqualToSuccess { get; set; }
+    public decimal LessThanOrEqualToSuccess { get; set; }
 
-    public long LessThanOrEqualToError { get; set; }
+    public decimal LessThanOrEqualToError { get; set; }
 
 }

@@ -25,7 +25,7 @@ public class MustModel : Notifiable<MustModel>
         }, MustDecimalErros.MustSuccess);
     }
 
-    public long MustSuccess { get; set; }
+    public decimal MustSuccess { get; set; }
 
-    public long MustError { get; set; }
+    public decimal MustError { get; set; }
 }

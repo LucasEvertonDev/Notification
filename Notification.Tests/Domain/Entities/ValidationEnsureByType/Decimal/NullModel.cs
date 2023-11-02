@@ -19,7 +19,7 @@ public class NullModel : Notifiable<NullModel>
         Ensure(valorNaoNulo).ForContext(e => e.NullSuccess).NotNull(NullDecimalErros.NullSuccess);
     }
 
-    public long NullSuccess { get; set; }
+    public decimal NullSuccess { get; set; }
 
-    public long NullError { get; set; }
+    public decimal NullError { get; set; }
 }

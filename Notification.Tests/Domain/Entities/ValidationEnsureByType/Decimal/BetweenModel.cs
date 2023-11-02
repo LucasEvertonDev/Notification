@@ -19,7 +19,7 @@ public class BetweenModel : Notifiable<BetweenModel>
         Ensure(valorSucesso).ForContext(e => e.BetweenSuccess).Between(11, 15, BetweenDecimalErros.BetweenSuccess);
     }
 
-    public long BetweenSuccess { get; set; }
+    public decimal BetweenSuccess { get; set; }
 
-    public long BetweenError { get; set; }
+    public decimal BetweenError { get; set; }
 }

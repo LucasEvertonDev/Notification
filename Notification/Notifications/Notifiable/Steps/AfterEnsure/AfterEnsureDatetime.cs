@@ -2,6 +2,7 @@
 using Notification.Notifications.Notifiable.Notifications.Base;
 using Notification.Notifications.Notifiable.Steps.AddNotification;
 using Notification.Notifications.Services;
+using System;
 using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 
@@ -30,13 +31,13 @@ public class AfterEnsureDatetime<TEntity>
     /// <param name=""></param>
     /// <param name="failureModel"></param>
     /// <returns></returns>
-    public AfterEnsureDatetime<TEntity> Must(Func<bool> func, FailureModel failureModel)
+    public AfterEnsureDatetime<TEntity> Must(Func<DateTime? ,bool> func, FailureModel failureModel)
     {
         return AddNotificationService
            .AddFailure(
                current: this,
                notificationContext: _notificationContext,
-               includeNotification: !func(),
+               includeNotification: !func(_notificationInfo.PropInfo.Value),
                notificationInfo: _notificationInfo,
                erro: failureModel
            );

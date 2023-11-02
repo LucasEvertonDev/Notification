@@ -32,14 +32,14 @@ public class GreaterThanModel : Notifiable<GreaterThanModel>
         Ensure(valor5).ForContext(e => e.GreaterThanOrEqualToError).GreaterThanOrEqualTo(10, GreaterThanErros.GreaterThanOrEqualToError);
     }
 
-    public long GreaterThanSuccess { get; set; }
+    public decimal GreaterThanSuccess { get; set; }
 
-    public long GreaterThanError { get; set; }
+    public decimal GreaterThanError { get; set; }
 
-    public long GreaterThanOrEqualTo { get; set; }
+    public decimal GreaterThanOrEqualTo { get; set; }
 
-    public long GreaterThanOrEqualToSuccess { get; set; }
+    public decimal GreaterThanOrEqualToSuccess { get; set; }
 
-    public long GreaterThanOrEqualToError { get; set; }
+    public decimal GreaterThanOrEqualToError { get; set; }
 
 }
