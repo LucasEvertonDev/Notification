@@ -29,13 +29,13 @@ public class AfterEnsureBool<TEntity>
     /// <param name=""></param>
     /// <param name="failureModel"></param>
     /// <returns></returns>
-    public AfterEnsureBool<TEntity> Must(Func<bool> func, FailureModel failureModel)
+    public AfterEnsureBool<TEntity> Must(Func<bool?, bool> func, FailureModel failureModel)
     {
         return AddNotificationService
            .AddFailure(
                current: this,
                notificationContext: _notificationContext,
-               includeNotification: !func(),
+               includeNotification: !func(_notificationInfo.PropInfo.Value),
                notificationInfo: _notificationInfo,
                erro: failureModel
            );
