@@ -23,7 +23,7 @@ public class AfterEnsureBool<TEntity>
     /// <param name="expression"></param>
     /// <param name="argumentExpression"></param>
     /// <returns></returns>
-    public AfterEnsureBool<TEntity> ForContext(Expression<Func<TEntity, bool>> expression, [CallerArgumentExpression(nameof(expression))] string argumentExpression = null)
+    public AfterEnsureBool<TEntity> ForContext(Expression<Func<TEntity, bool>> expression)
     {
         _notificationInfo.PropInfo.MemberName = ResultService.TranslateLambda(expression);
         return this;

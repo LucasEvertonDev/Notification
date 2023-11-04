@@ -10,7 +10,7 @@ namespace Notification.Notifications.Notifiable.Steps.AfterEnsure;
 
 public class AfterEnsureObject<TEntity>
 {
-    private bool IsAddInList { get; set; }
+    private bool IsAddOnList { get; set; }
     private readonly NotificationInfo _notificationInfo;
     private readonly NotificationContext _notificationContext;
 
@@ -26,8 +26,7 @@ public class AfterEnsureObject<TEntity>
     /// <param name="expression"></param>
     /// <param name="argumentExpression"></param>
     /// <returns></returns>
-    public AfterEnsureObject<TEntity> ForContext(Expression<Func<TEntity, INotifiableModel>> expression,
-        [CallerArgumentExpression(nameof(expression))] string argumentExpression = null)
+    public AfterEnsureObject<TEntity> ForContext(Expression<Func<TEntity, INotifiableModel>> expression)
     {
         _notificationInfo.PropInfo.MemberName = ResultService.TranslateLambda(expression);
 
@@ -40,10 +39,9 @@ public class AfterEnsureObject<TEntity>
     /// <param name="expression"></param>
     /// <param name="argumentExpression"></param>
     /// <returns></returns>
-    public AfterEnsureObject<TEntity> ForContext<TCollectionEntity>(Expression<Func<TEntity, List<TCollectionEntity>>> expression, List<TCollectionEntity> instance,
-        [CallerArgumentExpression(nameof(expression))] string argumentExpression = null) where TCollectionEntity : INotifiableModel
+    public AfterEnsureObject<TEntity> ForContext<TCollectionEntity>(Expression<Func<TEntity, List<TCollectionEntity>>> expression, List<TCollectionEntity> instance) where TCollectionEntity : INotifiableModel
     {
-        IsAddInList = true;
+        IsAddOnList = true;
         _notificationInfo.PropInfo.MemberName = ResultService.TranslateLambda(expression) + $"[{instance.Count}]";
 
         return this;
@@ -95,7 +93,7 @@ public class AfterEnsureObject<TEntity>
             return this;
         }
 
-        if (IsAddInList)
+        if (IsAddOnList)
         {
             for (var i = 0; i < ((INotifiableModel)_notificationInfo.PropInfo.Value)?.GetNotifications()?.Count; i++)
             {

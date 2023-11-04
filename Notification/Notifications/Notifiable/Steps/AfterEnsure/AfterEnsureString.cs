@@ -18,7 +18,7 @@ public class AfterEnsureString<TEntity>
         _notificationContext = notificationContext;
     }
 
-    public AfterEnsureString<TEntity> ForContext(Expression<Func<TEntity, string>> expression, [CallerArgumentExpression(nameof(expression))] string argumentExpression = null)
+    public AfterEnsureString<TEntity> ForContext(Expression<Func<TEntity, string>> expression)
     {
         _notificationInfo.PropInfo.MemberName = ResultService.TranslateLambda(expression);
         return this;

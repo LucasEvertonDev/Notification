@@ -14,6 +14,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Exceptions\Tetste.cs" />
     <Compile Remove="Notifications\Notifiable\Steps\AfterEnsure\AfterValidationWhen.cs" />
     <Compile Remove="Notifications\Notifiable\Steps\AfterEnsure\AfterValidationWhenBool.cs" />
     <Compile Remove="Notifications\Notifiable\Steps\AfterEnsure\AfterValidationWhenDateTime.cs" />

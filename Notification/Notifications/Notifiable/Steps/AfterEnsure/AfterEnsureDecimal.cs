@@ -23,7 +23,7 @@ public class AfterEnsureDecimal<TEntity>
     /// <param name="expression"></param>
     /// <param name="argumentExpression"></param>
     /// <returns></returns>
-    public AfterEnsureDecimal<TEntity> ForContext(Expression<Func<TEntity, decimal?>> expression, [CallerArgumentExpression(nameof(expression))] string argumentExpression = null)
+    public AfterEnsureDecimal<TEntity> ForContext(Expression<Func<TEntity, decimal?>> expression)
     {
         _notificationInfo.PropInfo.MemberName = ResultService.TranslateLambda(expression);
         return this;

@@ -23,7 +23,7 @@ public class AfterEnsureDatetime<TEntity>
     /// <param name="expression"></param>
     /// <param name="argumentExpression"></param>
     /// <returns></returns>
-    public AfterEnsureDatetime<TEntity> ForContext(Expression<Func<TEntity, DateTime?>> expression, [CallerArgumentExpression(nameof(expression))] string argumentExpression = null)
+    public AfterEnsureDatetime<TEntity> ForContext(Expression<Func<TEntity, DateTime?>> expression)
     {
         _notificationInfo.PropInfo.MemberName = ResultService.TranslateLambda(expression);
         return this;

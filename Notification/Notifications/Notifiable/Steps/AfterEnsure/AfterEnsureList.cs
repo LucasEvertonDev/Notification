@@ -24,8 +24,7 @@ public class AfterEnsureList<TEntity>
     /// <param name="expression"></param>
     /// <param name="argumentExpression"></param>
     /// <returns></returns>
-    public AfterEnsureList<TEntity> ForContext<TCollectionEntity>(Expression<Func<TEntity, List<TCollectionEntity>>> expression,
-        [CallerArgumentExpression(nameof(expression))] string argumentExpression = null) where TCollectionEntity : INotifiableModel
+    public AfterEnsureList<TEntity> ForContext<TCollectionEntity>(Expression<Func<TEntity, List<TCollectionEntity>>> expression) where TCollectionEntity : INotifiableModel
     {
         _notificationInfo.PropInfo.MemberName = ResultService.TranslateLambda(expression);
 
