@@ -2,7 +2,8 @@
 
 public class ValidationPropertWithOutGetSetException : System.Exception
 {
-    public ValidationPropertWithOutGetSetException(string message) : base(message)
+    public ValidationPropertWithOutGetSetException(string message)
+        : base(message)
     {
     }
 }

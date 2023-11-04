@@ -1,5 +1,4 @@
-﻿using Notification.Notifications.Notifiable.Notifications.Base;
-using Notifications.Notifiable.Notifications;
+﻿using Notifications.Notifiable.Notifications;
 
 namespace Notification.Tests.Domain.Entities;
 

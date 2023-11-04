@@ -7,10 +7,10 @@ namespace Notifications.Notifiable.Notifications;
 public partial class Notifiable<TEntity> : INotifiableModel
 {
     /// <summary>
-    /// Tem o objetivo de garantir algumas regras para o tipo Guid
+    /// Tem o objetivo de garantir algumas regras para propriedades.
     /// </summary>
-    /// <param name="valor"></param>
-    /// <returns></returns>
+    /// <param name="valor">Parâmetro de valor a ser validado.</param>
+    /// <returns>Retorna possibilidades de validações com objetivo de garantir somente cenários válidos.</returns>
     protected AfterEnsureGuid<TEntity> Ensure(Guid? valor)
     {
         return new AfterEnsureGuid<TEntity>(Result.GetContext(), new NotificationInfo(new PropInfo() { Value = valor }, EntityInfo));

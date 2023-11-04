@@ -7,10 +7,10 @@ namespace Notifications.Notifiable.Notifications;
 public partial class Notifiable<TEntity> : INotifiableModel
 {
     /// <summary>
-    /// Tem o objetivo de garantir algumas regras para o tipo string
+    /// Tem o objetivo de garantir algumas regras para propriedades.
     /// </summary>
-    /// <param name="valor"></param>
-    /// <returns></returns>
+    /// <param name="valor">Parâmetro de valor a ser validado.</param>
+    /// <returns>Retorna possibilidades de validações com objetivo de garantir somente cenários válidos.</returns>
     protected AfterEnsureString<TEntity> Ensure(string valor)
     {
         return new AfterEnsureString<TEntity>(Result.GetContext(), new NotificationInfo(new PropInfo() { Value = valor }, EntityInfo));

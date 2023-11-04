@@ -11,6 +11,7 @@ public static class ListService
         string jsonString = JsonConvert.SerializeObject(a);
         return JsonConvert.DeserializeObject<T>(jsonString);
     }
+
     public static List<NotificationModel> GetNotifications(dynamic list, string prefix)
     {
         var notifications = new List<NotificationModel>();
@@ -31,16 +32,14 @@ public static class ListService
                         var notification = ListService.Clone(notf);
 
                         var nomeRedundanteDoObjetoDaLista = notf.NotificationInfo.PropInfo.MemberName.IndexOf('.');
-                        notification.NotificationInfo.PropInfo.MemberName = $"{prefix}[{i}].{notf.NotificationInfo.PropInfo.MemberName.Substring(nomeRedundanteDoObjetoDaLista + 1)}";
+                        notification.NotificationInfo.PropInfo.MemberName = $"{prefix}[{i}].{notf.NotificationInfo.PropInfo.MemberName[(nomeRedundanteDoObjetoDaLista + 1)..]}";
 
                         return notification;
                     })
-                    .ToList()
-                );
+                .ToList());
             }
         }
 
         return notifications;
     }
-
 }

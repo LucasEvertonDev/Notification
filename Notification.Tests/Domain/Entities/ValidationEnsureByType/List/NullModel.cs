@@ -1,5 +1,4 @@
 ﻿using Notification.Notifications;
-using Notification.Tests.Domain.Entities.ValidationEnsureByType.list;
 using Notifications.Notifiable.Notifications;
 
 namespace Notification.Tests.Domain.Entities.ValidationEnsureByType.list;

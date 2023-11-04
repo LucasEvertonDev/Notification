@@ -15,7 +15,6 @@ public class NotificationInfo
     public EntityInfo EntityInfo { get; set; }
 }
 
-
 public class PropInfo
 {
     public dynamic Value { get; set; }

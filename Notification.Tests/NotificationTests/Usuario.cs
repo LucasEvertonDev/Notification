@@ -1,6 +1,4 @@
-﻿using FluentAssertions.Equivalency;
-using Notification.Tests.Domain.ValueObjects;
-using Notifications.Notifiable.Notifications;
+﻿using Notifications.Notifiable.Notifications;
 
 namespace Notification.Tests.NotificationTests;
 

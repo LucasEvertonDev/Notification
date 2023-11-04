@@ -3,13 +3,15 @@
 public class NotificationContext
 {
     private readonly List<NotificationModel> _notifications;
-    public IReadOnlyCollection<NotificationModel> Notifications => _notifications;
-    public bool HasNotifications => _notifications.Any();
 
     public NotificationContext()
     {
         _notifications = new List<NotificationModel>();
     }
+
+    public IReadOnlyCollection<NotificationModel> Notifications => _notifications;
+
+    public bool HasNotifications => _notifications.Any();
 
     public void AddNotification(NotificationModel notification)
     {

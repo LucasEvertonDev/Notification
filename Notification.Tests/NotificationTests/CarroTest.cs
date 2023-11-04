@@ -3,8 +3,6 @@ using Newtonsoft.Json;
 using Notification.Extensions;
 using Notification.Notifications;
 using Notification.Notifications.Notifiable.Notifications;
-using Notification.Tests.Domain;
-using Notification.Tests.Domain.Entities;
 using Notification.Tests.Domain.Models;
 
 namespace Notification.Tests.NotificationTests;
@@ -41,7 +39,7 @@ public class CarroTest : Notifiable
             result.Failure<Usuario>(u => u.Contatos[1].Email, new FailureModel("Email Invalido", "Email invalido"));
         }
 
-        var falhas = result.GetFailures.Select(x => new { x.NotificationInfo.PropInfo.MemberName, x.Error });
+        var falhas = result.GetFailures().Select(x => new { x.NotificationInfo.PropInfo.MemberName, x.Error });
 
         var json = JsonConvert.SerializeObject(falhas);
 
