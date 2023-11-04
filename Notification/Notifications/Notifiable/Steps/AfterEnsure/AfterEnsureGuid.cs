@@ -1,4 +1,5 @@
-﻿using Notification.Notifications.Context;
+﻿using Newtonsoft.Json.Linq;
+using Notification.Notifications.Context;
 using Notification.Notifications.Notifiable.Notifications.Base;
 using Notification.Notifications.Notifiable.Steps.AddNotification;
 using Notification.Notifications.Services;
@@ -78,4 +79,15 @@ public class AfterEnsureGuid<TEntity>
             );
     }
 
+    public AfterEnsureGuid<TEntity> NotEmpty(FailureModel notEmptyError)
+    {
+        return AddNotificationService
+           .AddFailure(
+               current: this,
+               notificationContext: _notificationContext,
+               includeNotification: Guid.Equals(_notificationInfo.PropInfo.Value, new Guid()),
+               notificationInfo: _notificationInfo,
+               erro: notEmptyError
+           );
+    }
 }

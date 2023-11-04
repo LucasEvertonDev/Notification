@@ -34,13 +34,13 @@ public class AfterEnsureList<TEntity>
     /// <param name=""></param>
     /// <param name="failureModel"></param>
     /// <returns></returns>
-    public AfterEnsureList<TEntity> Must(Func<bool> func, FailureModel failureModel)
+    public AfterEnsureList<TEntity> Must<TCollectionEntity>(Func<List<TCollectionEntity>, bool> func, FailureModel failureModel)
     {
         return AddNotificationService
            .AddFailure(
                current: this,
                notificationContext: _notificationContext,
-               includeNotification: !func(),
+               includeNotification: !func(_notificationInfo.PropInfo.Value),
                notificationInfo: _notificationInfo,
                erro: failureModel
            );
@@ -56,6 +56,18 @@ public class AfterEnsureList<TEntity>
                 notificationInfo: _notificationInfo,
                 erro: failureModel
             );
+    }
+
+    public AfterEnsureList<TEntity> NotEmpty(FailureModel notEmptyError)
+    {
+        return AddNotificationService
+           .AddFailure(
+               current: this,
+               notificationContext: _notificationContext,
+               includeNotification: _notificationInfo.PropInfo.Value == null || _notificationInfo.PropInfo.Value.Count == 0,
+               notificationInfo: _notificationInfo,
+               erro: notEmptyError
+           );
     }
 
     /// <summary>

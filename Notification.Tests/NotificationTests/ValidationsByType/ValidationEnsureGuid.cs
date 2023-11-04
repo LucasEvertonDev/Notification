@@ -37,4 +37,14 @@ public class ValidationEnsureGuid : Notifiable
         failures.Should().NotContain(EqualsGuidErros.EqualsSuccess);
         failures.Should().NotContain(EqualsGuidErros.NotEqualsSuccess);
     }
+
+    [Fact]
+    public void ValidateNotEmpty()
+    {
+        var failures = new NotEmptyModel().GetFailures();
+
+        failures.Should().Contain(NotEmptyGuidErros.NotEmptyError);
+
+        failures.Should().NotContain(NotEmptyGuidErros.NotEmptySuccess);
+    }
 }
