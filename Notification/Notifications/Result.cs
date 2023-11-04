@@ -219,11 +219,10 @@ public class Result<TResult>
     /// <summary>
     /// Realiza a conversão tipada do conteudo do resultado.
     /// </summary>
-    /// <typeparam name="T">Representa o conteudo do resultado.</typeparam>
     /// <returns>Retorna o próprio resultado.</returns>
-    public TResult GetContent<TResult>()
+    public TResult GetContent()
     {
-        return (TResult)Content;
+        return this.Content;
     }
 
     /// <summary>
