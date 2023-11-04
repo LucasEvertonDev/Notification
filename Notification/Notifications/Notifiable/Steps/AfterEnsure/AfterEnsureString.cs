@@ -9,8 +9,8 @@ namespace Notification.Notifications.Notifiable.Steps.AfterEnsure;
 
 public class AfterEnsureString<TEntity>
 {
-    private NotificationInfo _notificationInfo;
-    private NotificationContext _notificationContext;
+    private readonly NotificationInfo _notificationInfo;
+    private readonly NotificationContext _notificationContext;
 
     public AfterEnsureString(NotificationContext notificationContext, NotificationInfo notificationInfo)
     {
@@ -18,7 +18,7 @@ public class AfterEnsureString<TEntity>
         _notificationContext = notificationContext;
     }
 
-    public AfterEnsureString<TEntity> ForContext(Expression<Func<TEntity, string>> expression, [CallerArgumentExpression("expression")] string argumentExpression = null)
+    public AfterEnsureString<TEntity> ForContext(Expression<Func<TEntity, string>> expression, [CallerArgumentExpression(nameof(expression))] string argumentExpression = null)
     {
         _notificationInfo.PropInfo.MemberName = ResultService.TranslateLambda(expression);
         return this;

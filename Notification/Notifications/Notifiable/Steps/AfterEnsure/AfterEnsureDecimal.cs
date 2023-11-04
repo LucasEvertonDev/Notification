@@ -1,5 +1,4 @@
 ﻿using Notification.Notifications.Context;
-using Notification.Notifications.Notifiable.Notifications.Base;
 using Notification.Notifications.Notifiable.Steps.AddNotification;
 using Notification.Notifications.Services;
 using System.Linq.Expressions;
@@ -9,8 +8,8 @@ namespace Notification.Notifications.Notifiable.Steps.AfterEnsure;
 
 public class AfterEnsureDecimal<TEntity>
 {
-    private NotificationInfo _notificationInfo;
-    private NotificationContext _notificationContext;
+    private readonly NotificationInfo _notificationInfo;
+    private readonly NotificationContext _notificationContext;
 
     public AfterEnsureDecimal(NotificationContext notificationContext, NotificationInfo notificationInfo)
     {
@@ -18,14 +17,20 @@ public class AfterEnsureDecimal<TEntity>
         _notificationContext = notificationContext;
     }
 
-    public AfterEnsureDecimal<TEntity> ForContext(Expression<Func<TEntity, decimal?>> expression, [CallerArgumentExpression("expression")] string argumentExpression = null)
+    /// <summary>
+    /// Associa as validações a determinada propriedade da classe
+    /// </summary>
+    /// <param name="expression"></param>
+    /// <param name="argumentExpression"></param>
+    /// <returns></returns>
+    public AfterEnsureDecimal<TEntity> ForContext(Expression<Func<TEntity, decimal?>> expression, [CallerArgumentExpression(nameof(expression))] string argumentExpression = null)
     {
         _notificationInfo.PropInfo.MemberName = ResultService.TranslateLambda(expression);
         return this;
     }
 
     /// <summary>
-    /// Falso para registrar falhas
+    /// Garante validações personalizadas por meio de arrow function. Quando o retorno for false irá registrar falha
     /// </summary>
     /// <param name=""></param>
     /// <param name="failureModel"></param>
@@ -42,6 +47,11 @@ public class AfterEnsureDecimal<TEntity>
            );
     }
 
+    /// <summary>
+    /// Garante que o valor nunca seja nulo. Caso contrário irá registrar falha
+    /// </summary>
+    /// <param name="failureModel"></param>
+    /// <returns></returns>
     public AfterEnsureDecimal<TEntity> NotNull(FailureModel failureModel)
     {
         return AddNotificationService
@@ -54,6 +64,12 @@ public class AfterEnsureDecimal<TEntity>
             );
     }
 
+    /// <summary>
+    /// Garante que o valor SEJA equivalente ao recebido. Caso contrário ira registrar falha
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="failureModel"></param>
+    /// <returns></returns>
     public AfterEnsureDecimal<TEntity> Equals(decimal? value, FailureModel failureModel)
     {
         return AddNotificationService
@@ -66,18 +82,12 @@ public class AfterEnsureDecimal<TEntity>
             );
     }
 
-    public AfterEnsureDecimal<TEntity> Between(decimal start, decimal end, FailureModel failureModel)
-    {
-        return AddNotificationService
-            .AddFailure(
-                current: this,
-                notificationContext: _notificationContext,
-                includeNotification: !(_notificationInfo.PropInfo.Value >= start && _notificationInfo.PropInfo.Value <= end),
-                notificationInfo: _notificationInfo,
-                erro: failureModel
-            );
-    }
-
+    /// <summary>
+    /// Garante que o valor NÃO seja equivalente ao informado. Caso contrário ira registrar falha
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="failureModel"></param>
+    /// <returns></returns>
     public AfterEnsureDecimal<TEntity> NotEquals(decimal? value, FailureModel failureModel)
     {
         return AddNotificationService
@@ -90,6 +100,31 @@ public class AfterEnsureDecimal<TEntity>
             );
     }
 
+    /// <summary>
+    /// Garante que o valor esteja no intervalo informado. Caso contrário ira registrar falha
+    /// </summary>
+    /// <param name="start"></param>
+    /// <param name="end"></param>
+    /// <param name="failureModel"></param>
+    /// <returns></returns>
+    public AfterEnsureDecimal<TEntity> Between(decimal start, decimal end, FailureModel failureModel)
+    {
+        return AddNotificationService
+            .AddFailure(
+                current: this,
+                notificationContext: _notificationContext,
+                includeNotification: !(_notificationInfo.PropInfo.Value >= start && _notificationInfo.PropInfo.Value <= end),
+                notificationInfo: _notificationInfo,
+                erro: failureModel
+            );
+    }
+
+    /// <summary>
+    /// Garante que o valor seja maior que o valor informado. Caso contrário ira registrar falha
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="failureModel"></param>
+    /// <returns></returns>
     public AfterEnsureDecimal<TEntity> GreaterThan(decimal? value, FailureModel failureModel)
     {
         return AddNotificationService
@@ -102,6 +137,12 @@ public class AfterEnsureDecimal<TEntity>
             );
     }
 
+    /// <summary>
+    /// Garante que o valor seja maior ou igual que o valor informado. Caso contrário ira registrar falha
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="failureModel"></param>
+    /// <returns></returns>
     public AfterEnsureDecimal<TEntity> GreaterThanOrEqualTo(decimal? value, FailureModel failureModel)
     {
         return AddNotificationService
@@ -114,6 +155,12 @@ public class AfterEnsureDecimal<TEntity>
             );
     }
 
+    /// <summary>
+    /// Garante que o valor seja menor que o valor informado. Caso contrário ira registrar falha
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="failureModel"></param>
+    /// <returns></returns>
     public AfterEnsureDecimal<TEntity> LessThan(decimal? value, FailureModel failureModel)
     {
         return AddNotificationService
@@ -126,6 +173,12 @@ public class AfterEnsureDecimal<TEntity>
             );
     }
 
+    /// <summary>
+    /// Garante que o valor seja menor ou igual que o valor informado. Caso contrário ira registrar falha
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="failureModel"></param>
+    /// <returns></returns>
     public AfterEnsureDecimal<TEntity> LessThanOrEqualTo(decimal? value, FailureModel failureModel)
     {
         return AddNotificationService

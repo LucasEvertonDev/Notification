@@ -1,9 +1,7 @@
-﻿using Notification.Extensions;
-using Notification.Notifications.Context;
+﻿using Notification.Notifications.Context;
 using Notification.Notifications.Notifiable.Notifications.Base;
 using Notification.Notifications.Notifiable.Steps.AddNotification;
 using Notification.Notifications.Services;
-using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 
@@ -11,8 +9,8 @@ namespace Notification.Notifications.Notifiable.Steps.AfterEnsure;
 
 public class AfterEnsureList<TEntity>
 {
-    private NotificationInfo _notificationInfo;
-    private NotificationContext _notificationContext;
+    private readonly NotificationInfo _notificationInfo;
+    private readonly NotificationContext _notificationContext;
 
     public AfterEnsureList(NotificationContext notificationContext, NotificationInfo notificationInfo)
     {
@@ -20,8 +18,14 @@ public class AfterEnsureList<TEntity>
         _notificationContext = notificationContext;
     }
 
+    /// <summary>
+    /// Associa as validações a determinada propriedade da classe
+    /// </summary>
+    /// <param name="expression"></param>
+    /// <param name="argumentExpression"></param>
+    /// <returns></returns>
     public AfterEnsureList<TEntity> ForContext<TCollectionEntity>(Expression<Func<TEntity, List<TCollectionEntity>>> expression,
-        [CallerArgumentExpression("expression")] string argumentExpression = null) where TCollectionEntity : INotifiableModel
+        [CallerArgumentExpression(nameof(expression))] string argumentExpression = null) where TCollectionEntity : INotifiableModel
     {
         _notificationInfo.PropInfo.MemberName = ResultService.TranslateLambda(expression);
 
@@ -29,7 +33,7 @@ public class AfterEnsureList<TEntity>
     }
 
     /// <summary>
-    /// Falso para registrar falhas
+    /// Garante validações personalizadas por meio de arrow function. Quando o retorno for false irá registrar falha
     /// </summary>
     /// <param name=""></param>
     /// <param name="failureModel"></param>
@@ -46,6 +50,11 @@ public class AfterEnsureList<TEntity>
            );
     }
 
+    /// <summary>
+    /// Garante que o valor nunca seja nulo. Caso contrário irá registrar falha
+    /// </summary>
+    /// <param name="failureModel"></param>
+    /// <returns></returns>
     public AfterEnsureList<TEntity> NotNull(FailureModel failureModel)
     {
         return AddNotificationService
@@ -58,6 +67,11 @@ public class AfterEnsureList<TEntity>
             );
     }
 
+    /// <summary>
+    /// Garante que o valor nunca seja nulo ou com número de itens == 0. Caso contrário irá registrar falha
+    /// </summary>
+    /// <param name="failureModel"></param>
+    /// <returns></returns>
     public AfterEnsureList<TEntity> NotEmpty(FailureModel notEmptyError)
     {
         return AddNotificationService
@@ -71,7 +85,7 @@ public class AfterEnsureList<TEntity>
     }
 
     /// <summary>
-    ///  As falhas serão injetadas automaticamente
+    /// Garante o registro das falhas dos itens da lista quando os mesmos possuirem falhas.
     /// </summary>
     /// <returns></returns>
     public AfterEnsureList<TEntity> NoFailures()

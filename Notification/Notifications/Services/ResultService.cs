@@ -1,4 +1,5 @@
-﻿using Notification.Notifications.Context;
+﻿using Notification.Exceptions;
+using Notification.Notifications.Context;
 using Notification.Notifications.Enum;
 using Notification.Notifications.Notifiable.Notifications.Base;
 using System.Linq.Expressions;
@@ -33,8 +34,6 @@ public class ResultService
         NotificationContext.AddNotification(new NotificationModel(failure, notificationInfo));
     }
 
-    private static bool ContainsProperty(object obj, string name) => obj.GetType().GetProperty(name) != null;
-
     public void Failure<T>(Expression<Func<T, dynamic>> exp, FailureModel failure) where T : INotifiableModel
     {
         var notificationType = NotificationType.BusinessNotification;
@@ -59,18 +58,15 @@ public class ResultService
         NotificationContext.AddNotification(new NotificationModel(failure, notificationInfo));
     }
 
+    private static bool ContainsProperty(object obj, string name) => obj.GetType().GetProperty(name) != null;
+
     public static string TranslateLambda(dynamic lambda)
     {
-        List<string> names = new List<string>();
-        var memberSelectorExpression = lambda.Body as MemberExpression;
-        if (memberSelectorExpression != null)
+        List<string> names = new();
+        if (lambda.Body is MemberExpression memberSelectorExpression)
         {
-            var property = memberSelectorExpression.Member as PropertyInfo;
-
-            if (property == null)
-            {
-                throw new Exception("É preciso adicionar {get; set;} a sua prop");
-            }
+            var property = memberSelectorExpression.Member as PropertyInfo ??
+                throw new ValidationPropertWithOutGetSetException("É preciso adicionar {get; set;} a sua prop");
 
             names.Add(property.Name);
 
@@ -78,14 +74,14 @@ public class ResultService
 
             while (ContainsProperty(expression, "Expression"))
             {
-                if (expression.Expression is MemberExpression)
+                if (expression.Expression is MemberExpression subMemberExpression)
                 {
-                    names.Add(((MemberExpression)expression.Expression).Type.Name);
+                    names.Add(subMemberExpression.Type.Name);
                     expression = expression.Expression;
                 }
-                else if (expression.Expression is ParameterExpression)
+                else if (expression.Expression is ParameterExpression subParameterExpression)
                 {
-                    names.Add(((ParameterExpression)expression.Expression).Type.Name);
+                    names.Add(subParameterExpression.Type.Name);
                     expression = expression.Expression;
                 }
                 else if (expression.Expression is MethodCallExpression)
@@ -94,34 +90,34 @@ public class ResultService
 
                     if (ContainsProperty(argumento, "Expression"))
                     {
-                        if (argumento.Expression is ConstantExpression)
+                        if (argumento.Expression is ConstantExpression subContantExpression)
                         {
-                            var valor = ((ConstantExpression)argumento.Expression).Value;
+                            var valor = subContantExpression.Value;
                             names.Add($"[{valor.GetType().GetField("i").GetValue(valor)}]");
                         }
                     }
-                    else if (argumento is ConstantExpression)
+                    else if (argumento is ConstantExpression argContantExpression)
                     {
-                        names.Add($"[{((ConstantExpression)argumento).Value}]");
+                        names.Add($"[{argContantExpression.Value}]");
                     }
 
-                    if (expression.Expression.Object is MemberExpression)
+                    if (expression.Expression.Object is MemberExpression subMethodMemberExpression)
                     {
-                        names.Add(((MemberExpression)expression.Expression.Object).Member.Name);
+                        names.Add(subMethodMemberExpression.Member.Name);
                     }
                     expression = expression.Expression.Object;
                 }
             }
         }
 
-        names.Reverse(0, names.Count());
+        names.Reverse(0, names.Count);
 
         return string.Join(".", names).Replace(".[", "[");
     }
 
     public static Dictionary<object, object[]> GetFailures(Result result)
     {
-        Dictionary<object, object[]> dic = new Dictionary<object, object[]>();
+        Dictionary<object, object[]> dic = new();
 
         var agrupados = result.GetFailures.OrderByDescending(a => (int)a.NotificationInfo.EntityInfo.NotificationType)
             .Select(a => new
@@ -132,7 +128,7 @@ public class ResultService
             .GroupBy(a => a.key).Select(a => new
             {
                 key = a.Key,
-                messages = a.ToList().Select(a => a.message).ToArray()
+                messages = a.Select(a => a.message).ToArray()
             })
             .ToList();
 

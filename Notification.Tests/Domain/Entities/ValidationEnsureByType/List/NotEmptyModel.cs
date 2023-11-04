@@ -13,7 +13,7 @@ public class NotEmptyModel : Notifiable<NotEmptyModel>
 {
     public NotEmptyModel()
     {
-        List<Teste> valorNulo = new List<Teste>();
+        List<Teste> valorNulo = new();
         var valorNaoNulo = new List<Teste>() { new Teste() { Prop1 = "2" } };
 
         Ensure(valorNulo).ForContext(e => e.NotEmptyError).NotEmpty(NotEmptyListErros.NotEmptyError);

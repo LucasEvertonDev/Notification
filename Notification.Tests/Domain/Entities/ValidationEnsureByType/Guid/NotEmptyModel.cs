@@ -14,7 +14,7 @@ public class NotEmptyModel : Notifiable<NotEmptyModel>
     public NotEmptyModel()
     {
         Guid? valor = new Guid("a9a5c5a1-ab9b-4058-8b81-7b0ef880cda9");
-        Guid valorVazio = new Guid();
+        Guid valorVazio = new();
 
         Ensure(valorVazio).ForContext(e => e.NotEmptyError).NotEmpty(NotEmptyGuidErros.NotEmptyError);
 

@@ -10,9 +10,9 @@ namespace Notification.Notifications.Notifiable.Steps.AfterEnsure;
 
 public class AfterEnsureObject<TEntity>
 {
-    private bool _addInList { get; set; }
-    private NotificationInfo _notificationInfo;
-    private NotificationContext _notificationContext;
+    private bool IsAddInList { get; set; }
+    private readonly NotificationInfo _notificationInfo;
+    private readonly NotificationContext _notificationContext;
 
     public AfterEnsureObject(NotificationContext notificationContext, NotificationInfo notificationInfo)
     {
@@ -20,25 +20,37 @@ public class AfterEnsureObject<TEntity>
         _notificationContext = notificationContext;
     }
 
+    /// <summary>
+    /// Associa as validações a determinada propriedade da classe
+    /// </summary>
+    /// <param name="expression"></param>
+    /// <param name="argumentExpression"></param>
+    /// <returns></returns>
     public AfterEnsureObject<TEntity> ForContext(Expression<Func<TEntity, INotifiableModel>> expression,
-        [CallerArgumentExpression("expression")] string argumentExpression = null)
+        [CallerArgumentExpression(nameof(expression))] string argumentExpression = null)
     {
         _notificationInfo.PropInfo.MemberName = ResultService.TranslateLambda(expression);
 
         return this;
     }
 
+    /// <summary>
+    /// Associa as validações a determinada propriedade de lista da classe
+    /// </summary>
+    /// <param name="expression"></param>
+    /// <param name="argumentExpression"></param>
+    /// <returns></returns>
     public AfterEnsureObject<TEntity> ForContext<TCollectionEntity>(Expression<Func<TEntity, List<TCollectionEntity>>> expression, List<TCollectionEntity> instance,
-        [CallerArgumentExpression("expression")] string argumentExpression = null) where TCollectionEntity : INotifiableModel
+        [CallerArgumentExpression(nameof(expression))] string argumentExpression = null) where TCollectionEntity : INotifiableModel
     {
-        _addInList = true;
+        IsAddInList = true;
         _notificationInfo.PropInfo.MemberName = ResultService.TranslateLambda(expression) + $"[{instance.Count}]";
 
         return this;
     }
 
     /// <summary>
-    /// Falso para registrar falhas
+    /// Garante validações personalizadas por meio de arrow function. Quando o retorno for false irá registrar falha
     /// </summary>
     /// <param name=""></param>
     /// <param name="failureModel"></param>
@@ -55,6 +67,11 @@ public class AfterEnsureObject<TEntity>
            );
     }
 
+    /// <summary>
+    /// Garante que o valor nunca seja nulo. Caso contrário irá registrar falha
+    /// </summary>
+    /// <param name="failureModel"></param>
+    /// <returns></returns>
     public AfterEnsureObject<TEntity> NotNull(FailureModel failureModel)
     {
         return AddNotificationService
@@ -68,7 +85,7 @@ public class AfterEnsureObject<TEntity>
     }
 
     /// <summary>
-    ///  As falhas serão injetadas automaticamente
+    /// Garante o registro das falhas do valor quando o mesmo possuir falhas.
     /// </summary>
     /// <returns></returns>
     public AfterEnsureObject<TEntity> NoFailures()
@@ -78,7 +95,7 @@ public class AfterEnsureObject<TEntity>
             return this;
         }
 
-        if (_addInList)
+        if (IsAddInList)
         {
             for (var i = 0; i < ((INotifiableModel)_notificationInfo.PropInfo.Value)?.GetNotifications()?.Count; i++)
             {
@@ -87,9 +104,9 @@ public class AfterEnsureObject<TEntity>
 
                 var notification = ListService.Clone(failure);
 
-                var separacoes = ((string)notification.NotificationInfo.PropInfo.MemberName)?.Split(".").ToList();
+                var separacoes = (notification.NotificationInfo.PropInfo.MemberName)?.Split(".").ToList();
 
-                if (separacoes.Count > 0)
+                if (separacoes != null && separacoes.Count > 0)
                 {
                     separacoes.RemoveAt(0);
                     translate = string.Join("", separacoes);

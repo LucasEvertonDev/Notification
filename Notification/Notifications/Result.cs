@@ -11,30 +11,32 @@ public class Result
     public Result(NotificationContext Notification)
     {
         NotificationContext = Notification;
-        _resultService = new ResultService(Notification);
+        ResultService = new ResultService(Notification);
     }
 
-    private ResultService _resultService { get; set; }
+    private ResultService ResultService { get; set; }
 
     private NotificationContext NotificationContext { get; set; }
+
+    public NotificationContext GetContext() => NotificationContext;
 
     public bool HasFailures() => NotificationContext.HasNotifications;
 
     public IReadOnlyCollection<NotificationModel> GetFailures => NotificationContext.Notifications;
 
-    public Result Failure<T>(FailureModel failure) where T : INotifiable
+    public Result Failure<TContext>(FailureModel failure) where TContext : INotifiable
     {
-        _resultService.Failure<T>(failure);
+        ResultService.Failure<TContext>(failure);
         return this;
     }
 
-    public Result Failure<T>(Expression<Func<T, dynamic>> exp, FailureModel failure) where T : INotifiableModel
+    public Result Failure<TNotifiableModel>(Expression<Func<TNotifiableModel, dynamic>> exp, FailureModel failure) where TNotifiableModel : INotifiableModel
     {
-        _resultService.Failure<T>(exp, failure);
+        ResultService.Failure<TNotifiableModel>(exp, failure);
         return this;
     }
 
-    public Result Failure<T>(INotifiableModel notifiableModel)
+    public Result Failure<TNotifiableModel>(TNotifiableModel notifiableModel) where TNotifiableModel : INotifiableModel
     {
         NotificationContext.AddNotifications(notifiableModel.GetNotifications());
         return this;
@@ -45,8 +47,6 @@ public class Result
         NotificationContext.AddNotifications(failures);
         return this;
     }
-
-    public NotificationContext GetContext() => NotificationContext;
 
     public T GetContent<T>()
     {

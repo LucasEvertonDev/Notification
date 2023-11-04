@@ -11,7 +11,7 @@ public partial class Notifiable<TEntity> : INotifiableModel
     public Result Result { get; set; }
 
     [JsonIgnore]
-    private EntityInfo EntityInfo => new EntityInfo()
+    private static EntityInfo EntityInfo => new()
     {
         Name = typeof(TEntity).Name,
         Namespace = typeof(TEntity).Namespace,

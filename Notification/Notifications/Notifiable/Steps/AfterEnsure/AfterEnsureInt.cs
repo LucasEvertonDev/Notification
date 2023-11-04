@@ -8,8 +8,8 @@ namespace Notification.Notifications.Notifiable.Steps.AfterEnsure;
 
 public class AfterEnsureInt<TEntity>
 {
-    private NotificationInfo _notificationInfo;
-    private NotificationContext _notificationContext;
+    private readonly NotificationInfo _notificationInfo;
+    private readonly NotificationContext _notificationContext;
 
     public AfterEnsureInt(NotificationContext notificationContext, NotificationInfo notificationInfo)
     {
@@ -17,14 +17,20 @@ public class AfterEnsureInt<TEntity>
         _notificationContext = notificationContext;
     }
 
-    public AfterEnsureInt<TEntity> ForContext(Expression<Func<TEntity, long?>> expression, [CallerArgumentExpression("expression")] string argumentExpression = null)
+    /// <summary>
+    /// Associa as validações a determinada propriedade da classe
+    /// </summary>
+    /// <param name="expression"></param>
+    /// <param name="argumentExpression"></param>
+    /// <returns></returns>
+    public AfterEnsureInt<TEntity> ForContext(Expression<Func<TEntity, long?>> expression, [CallerArgumentExpression(nameof(expression))] string argumentExpression = null)
     {
         _notificationInfo.PropInfo.MemberName = ResultService.TranslateLambda(expression);
         return this;
     }
 
     /// <summary>
-    /// Falso para registrar falhas
+    /// Garante validações personalizadas por meio de arrow function. Quando o retorno for false irá registrar falha
     /// </summary>
     /// <param name=""></param>
     /// <param name="failureModel"></param>
@@ -41,6 +47,11 @@ public class AfterEnsureInt<TEntity>
            );
     }
 
+    /// <summary>
+    /// Garante que o valor nunca seja nulo. Caso contrário irá registrar falha
+    /// </summary>
+    /// <param name="failureModel"></param>
+    /// <returns></returns>
     public AfterEnsureInt<TEntity> NotNull(FailureModel failureModel)
     {
         return AddNotificationService
@@ -53,6 +64,12 @@ public class AfterEnsureInt<TEntity>
             );
     }
 
+    /// <summary>
+    /// Garante que o valor SEJA equivalente ao informado. Caso contrário ira registrar falha
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="failureModel"></param>
+    /// <returns></returns>
     public AfterEnsureInt<TEntity> Equals(long? value, FailureModel failureModel)
     {
         return AddNotificationService
@@ -65,6 +82,13 @@ public class AfterEnsureInt<TEntity>
             );
     }
 
+    /// <summary>
+    /// Garante que o valor esteja no intervalo informado. Caso contrário ira registrar falha
+    /// </summary>
+    /// <param name="start"></param>
+    /// <param name="end"></param>
+    /// <param name="failureModel"></param>
+    /// <returns></returns>
     public AfterEnsureInt<TEntity> Between(long start, long end, FailureModel failureModel)
     {
         return AddNotificationService
@@ -77,6 +101,12 @@ public class AfterEnsureInt<TEntity>
             );
     }
 
+    /// <summary>
+    /// Garante que o valor NÃO seja equivalente ao informado. Caso contrário ira registrar falha
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="failureModel"></param>
+    /// <returns></returns>
     public AfterEnsureInt<TEntity> NotEquals(long? value, FailureModel failureModel)
     {
         return AddNotificationService
@@ -90,7 +120,12 @@ public class AfterEnsureInt<TEntity>
     }
 
 
-    ///Maior que 
+    /// <summary>
+    /// Garante que o valor seja maior que o valor informado. Caso contrário ira registrar falha
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="failureModel"></param>
+    /// <returns></returns>
     public AfterEnsureInt<TEntity> GreaterThan(long? value, FailureModel failureModel)
     {
         return AddNotificationService
@@ -103,6 +138,12 @@ public class AfterEnsureInt<TEntity>
             );
     }
 
+    /// <summary>
+    /// Garante que o valor seja maior ou igual que o valor informado. Caso contrário ira registrar falha
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="failureModel"></param>
+    /// <returns></returns>
     public AfterEnsureInt<TEntity> GreaterThanOrEqualTo(long? value, FailureModel failureModel)
     {
         return AddNotificationService
@@ -115,7 +156,12 @@ public class AfterEnsureInt<TEntity>
             );
     }
 
-    ///Menor que
+    /// <summary>
+    /// Garante que o valor seja menor que o valor informado. Caso contrário ira registrar falha
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="failureModel"></param>
+    /// <returns></returns>
     public AfterEnsureInt<TEntity> LessThan(long? value, FailureModel failureModel)
     {
         return AddNotificationService
@@ -128,6 +174,12 @@ public class AfterEnsureInt<TEntity>
             );
     }
 
+    /// <summary>
+    /// Garante que o valor seja menor ou igual que o valor informado. Caso contrário ira registrar falha
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="failureModel"></param>
+    /// <returns></returns>
     public AfterEnsureInt<TEntity> LessThanOrEqualTo(long? value, FailureModel failureModel)
     {
         return AddNotificationService
