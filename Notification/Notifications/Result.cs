@@ -114,7 +114,7 @@ public class Result
     /// </summary>
     /// <param name="content">Representa o conteudo do resultado.</param>
     /// <returns>Retorna o próprio resultado.</returns>
-    public Result SetContent(dynamic content)
+    public Result Ok(dynamic content)
     {
         this.Content = content;
         return this;
