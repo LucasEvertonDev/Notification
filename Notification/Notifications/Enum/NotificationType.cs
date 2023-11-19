@@ -4,4 +4,5 @@ public enum NotificationType
 {
     DomainNotification = 0,
     BusinessNotification = 1,
+    RequestNotification = 2
 }

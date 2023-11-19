@@ -119,4 +119,9 @@ public class Result
         this.Content = content;
         return this;
     }
+
+    public Result Ok()
+    {
+        return this;
+    }
 }
