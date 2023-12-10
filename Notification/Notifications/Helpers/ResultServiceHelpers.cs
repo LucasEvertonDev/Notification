@@ -32,61 +32,48 @@ public static class ResultServiceHelpers
         return dic;
     }
 
-    public static string TranslateLambda(dynamic lambda)
+    public static string TranslateLambda(dynamic propertyExpression, bool useAlias = false, bool includeSourceName = false)
     {
-        List<string> names = new ();
-        if (lambda.Body is MemberExpression memberSelectorExpression)
+        if (propertyExpression == null)
         {
-            var property = memberSelectorExpression.Member as PropertyInfo ??
-                throw new ValidationPropertWithOutGetSetException("É preciso adicionar {get; set;} a sua prop");
-
-            names.Add(property.Name);
-
-            dynamic expression = memberSelectorExpression;
-
-            while (ResultServiceHelpers.ContainsProperty(expression, "Expression"))
-            {
-                if (expression.Expression is MemberExpression subMemberExpression)
-                {
-                    names.Add(subMemberExpression.Type.Name);
-                    expression = expression.Expression;
-                }
-                else if (expression.Expression is ParameterExpression subParameterExpression)
-                {
-                    names.Add(subParameterExpression.Type.Name);
-                    expression = expression.Expression;
-                }
-                else if (expression.Expression is MethodCallExpression)
-                {
-                    var argumento = expression.Expression.Arguments[0];
-
-                    if (ResultServiceHelpers.ContainsProperty(argumento, "Expression"))
-                    {
-                        if (argumento.Expression is ConstantExpression subContantExpression)
-                        {
-                            var valor = subContantExpression.Value;
-                            names.Add($"[{valor.GetType().GetField("i").GetValue(valor)}]");
-                        }
-                    }
-                    else if (argumento is ConstantExpression argContantExpression)
-                    {
-                        names.Add($"[{argContantExpression.Value}]");
-                    }
-
-                    if (expression.Expression.Object is MemberExpression subMethodMemberExpression)
-                    {
-                        names.Add(subMethodMemberExpression.Member.Name);
-                    }
-
-                    expression = expression.Expression.Object;
-                }
-            }
+            throw new ArgumentNullException(nameof(propertyExpression));
         }
 
-        names.Reverse(0, names.Count);
+        string propertyName = InterpretExpression(propertyExpression.Body, useAlias, includeSourceName);
 
-        return string.Join(".", names).Replace(".[", "[");
+        return propertyName;
     }
 
-    private static bool ContainsProperty(object obj, string name) => obj.GetType().GetProperty(name) != null;
+    private static string InterpretExpression(Expression expression, bool useAlias = false, bool includeSourceName = false)
+    {
+        switch (expression)
+        {
+            case MemberExpression memberExpression:
+                return GetNestedPropertyNameSegment(memberExpression, useAlias, includeSourceName);
+
+            case MethodCallExpression methodCallExpression when methodCallExpression.Method.Name == "get_Item" && methodCallExpression.Arguments.Count == 1:
+                var indexExpression = (ConstantExpression)methodCallExpression.Arguments[0];
+                return $"{InterpretExpression(methodCallExpression.Object, useAlias, includeSourceName)}[{indexExpression.Value}]";
+
+            case UnaryExpression unaryExpression:
+                return InterpretExpression(unaryExpression.Operand, useAlias, includeSourceName);
+
+            case var exp when exp.NodeType == ExpressionType.Parameter:
+                return exp.Type.Name;
+
+            default:
+                return string.Empty;
+        }
+    }
+
+    private static string GetNestedPropertyNameSegment(MemberExpression memberExpression, bool useAlias = false, bool includeSourceName = false)
+    {
+        if (memberExpression.Expression is null)
+        {
+            return memberExpression.Member.Name;
+        }
+
+        string parentSegment = InterpretExpression(memberExpression.Expression, useAlias, includeSourceName);
+        return parentSegment == string.Empty ? $"{memberExpression.Member.Name}" : $"{parentSegment}.{memberExpression.Member.Name}";
+    }
 }
