@@ -89,6 +89,21 @@ public class Result
     }
 
     /// <summary>
+    /// Registra as falhas de determinada entidade.
+    /// </summary>
+    /// <typeparam name="TContext">Representa um handler, service, contexto em que ocorreu a falha.</typeparam>
+    /// <param name="notifiableModel">Representa a instância da entidade que iremos obter as falhas.</param>
+    /// <returns>Retorna o próprio resultado.</returns>
+#pragma warning disable S2326 // Unused type parameters should be removed
+    public Result Failure<TContext>(INotifiableModel notifiableModel)
+#pragma warning restore S2326 // Unused type parameters should be removed
+        where TContext : INotifiable
+    {
+        NotificationContext.AddNotifications(notifiableModel.GetNotifications());
+        return this;
+    }
+
+    /// <summary>
     /// Registra uma lista de falhas.
     /// </summary>
     /// <param name="failures">Representa a lista de falhas que será armazenada.</param>
