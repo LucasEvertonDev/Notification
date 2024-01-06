@@ -8,7 +8,7 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Title>Notification</Title>
     <PackageId>LcsEverton.Notification</PackageId>
-	  <Version>13.0.0</Version>
+	  <Version>14.0.0</Version>
     <Authors>Lucas Everton Santos de Oliveira</Authors>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>

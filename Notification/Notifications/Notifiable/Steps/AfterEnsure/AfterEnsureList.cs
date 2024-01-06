@@ -44,6 +44,21 @@ public class AfterEnsureList<TEntity>
     }
 
     /// <summary>
+    /// Associa as validações a determinada propriedade da classe.
+    /// Em caso de uso deve ser informado após o ensure.
+    /// </summary>
+    /// <typeparam name="TCollectionEntity">Reprensa o tipo para o item da lista o mesmo deve ser um objeto que é notificável.</typeparam>
+    /// <param name="expression">Lambda indicando a propriedade da classe que irá receber o valor a ser validado.</param>
+    /// <returns>Retorna novas possibilidades de validações.</returns>
+    public AfterEnsureList<TEntity> ForContext<TCollectionEntity>(Expression<Func<TEntity, ICollection<TCollectionEntity>>> expression)
+        where TCollectionEntity : INotifiableModel
+    {
+        _notificationInfo.PropInfo.MemberName = ResultServiceHelpers.TranslateLambda(expression);
+
+        return this;
+    }
+
+    /// <summary>
     ///  Garante validações personalizadas por meio de arrow function. Quando o retorno for false irá registrar falha.
     /// </summary>
     /// <typeparam name="TCollectionEntity">Reprensa o tipo para o item da lista o mesmo deve ser um objeto que é notificável.</typeparam>
@@ -51,6 +66,24 @@ public class AfterEnsureList<TEntity>
     /// <param name="failureModel">Objeto de falha que deve ser criado em arquivo de erros.</param>
     /// <returns>Retorna novas possibilidades de validações.</returns>
     public AfterEnsureList<TEntity> Must<TCollectionEntity>(Func<List<TCollectionEntity>, bool> func, FailureModel failureModel)
+    {
+        return AddNotificationService
+           .AddFailure(
+               current: this,
+               notificationContext: _notificationContext,
+               includeNotification: !func(_notificationInfo.PropInfo.Value),
+               notificationInfo: _notificationInfo,
+               erro: failureModel);
+    }
+
+    /// <summary>
+    ///  Garante validações personalizadas por meio de arrow function. Quando o retorno for false irá registrar falha.
+    /// </summary>
+    /// <typeparam name="TCollectionEntity">Reprensa o tipo para o item da lista o mesmo deve ser um objeto que é notificável.</typeparam>
+    /// <param name="func">Arrow function que deve retornar um booleano.</param>
+    /// <param name="failureModel">Objeto de falha que deve ser criado em arquivo de erros.</param>
+    /// <returns>Retorna novas possibilidades de validações.</returns>
+    public AfterEnsureList<TEntity> Must<TCollectionEntity>(Func<ICollection<TCollectionEntity>, bool> func, FailureModel failureModel)
     {
         return AddNotificationService
            .AddFailure(
