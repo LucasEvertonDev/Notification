@@ -193,9 +193,7 @@ public class PessoaTest : Notifiable
             atendimento: atendimento,
             valorCobrado: 0);
          
-
         atendimento.AddServico(mapServicoAtendimento);
-
 
         var failures = atendimento.GetNotifications().Select(a => new
         {
