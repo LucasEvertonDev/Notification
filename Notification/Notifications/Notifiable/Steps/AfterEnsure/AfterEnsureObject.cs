@@ -68,7 +68,7 @@ public class AfterEnsureObject<TEntity>
     /// <param name="expression">Lambda indicando a propriedade da classe que irá receber o valor a ser validado.</param>
     /// <param name="instance">Tem objetivo de passar a referência da lista que está sendo adcionada.</param>
     /// <returns>Retorna novas possibilidades de validações.</returns>
-    public AfterEnsureObject<TEntity> ForContext<TCollectionEntity>(Expression<Func<TEntity, ICollection<TCollectionEntity>>> expression, List<TCollectionEntity> instance)
+    public AfterEnsureObject<TEntity> ForContext<TCollectionEntity>(Expression<Func<TEntity, ICollection<TCollectionEntity>>> expression, ICollection<TCollectionEntity> instance)
         where TCollectionEntity : INotifiableModel
     {
         _isAddOnList = true;
