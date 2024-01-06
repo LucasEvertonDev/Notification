@@ -1,9 +1,15 @@
-﻿using FluentAssertions;
+﻿using Authentication.Application.Domain.Contexts.DbAuth.Atendimentos;
+using Authentication.Application.Domain.Contexts.DbAuth.Clientes;
+using Authentication.Application.Domain.Contexts.DbAuth.MapAtendimentosServicos;
+using FluentAssertions;
 using Newtonsoft.Json;
 using Notification.Extensions;
 using Notification.Notifications.Notifiable.Notifications;
 using Notification.Tests.Domain;
 using Notification.Tests.Domain.Entities;
+using System.Threading;
+using static Notification.Tests.Domain.Erros;
+using Pessoa = Notification.Tests.Domain.Entities.Pessoa;
 
 namespace Notification.Tests.NotificationTests;
 
@@ -95,7 +101,7 @@ public class PessoaTest : Notifiable
                     )
             );
 
-        var pessoa = new Pessoa()
+        var pessoa = new Domain.Entities.Pessoa()
             .CriarPessoa(
                 primeiroNome: "Pessoa com nome válido",
                 sobrenome: "sobrenome",
@@ -173,6 +179,31 @@ public class PessoaTest : Notifiable
     [Fact]
     public void FazNada()
     {
+        var atendimento = new Atendimento(
+            data: DateTime.Now,
+            cliente: null,
+            clienteAtrasado: false,
+            valorAtendimento: 0,
+            valorPago: 0,
+            observacaoAtendimento: "",
+            situacao: 1);
 
+        var mapServicoAtendimento = new MapAtendimentoServico(
+            servico: null,
+            atendimento: atendimento,
+            valorCobrado: 0);
+         
+
+        atendimento.AddServico(mapServicoAtendimento);
+
+
+        var failures = atendimento.GetNotifications().Select(a => new
+        {
+            prop = a.NotificationInfo.PropInfo.MemberName,
+            message = a.Error.message
+        }).ToList();
+
+
+        failures.Where(a => a.prop == "Atendimento.MapAtendimentosServicos[0].Atendimento.Cliente").Should().NotBeNull();
     }
 }

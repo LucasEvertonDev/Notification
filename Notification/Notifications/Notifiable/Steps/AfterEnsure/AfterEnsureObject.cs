@@ -135,7 +135,7 @@ public class AfterEnsureObject<TEntity>
                 if (separacoes != null && separacoes.Count > 0)
                 {
                     separacoes.RemoveAt(0);
-                    translate = string.Join(string.Empty, separacoes);
+                    translate = string.Join(".", separacoes);
                 }
 
                 notification.NotificationInfo.PropInfo.MemberName = translate;
