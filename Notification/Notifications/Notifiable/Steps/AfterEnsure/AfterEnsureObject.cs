@@ -61,6 +61,22 @@ public class AfterEnsureObject<TEntity>
     }
 
     /// <summary>
+    /// Associa as validações a determinada propriedade da classe.
+    /// Em caso de uso deve ser informado após o ensure.
+    /// </summary>
+    /// <typeparam name="TCollectionEntity">Reprensa o tipo para o item da lista o mesmo deve ser um objeto que é notificável.</typeparam>
+    /// <param name="expression">Lambda indicando a propriedade da classe que irá receber o valor a ser validado.</param>
+    /// <param name="instance">Tem objetivo de passar a referência da lista que está sendo adcionada.</param>
+    /// <returns>Retorna novas possibilidades de validações.</returns>
+    public AfterEnsureObject<TEntity> ForContext<TCollectionEntity>(Expression<Func<TEntity, ICollection<TCollectionEntity>>> expression, List<TCollectionEntity> instance)
+        where TCollectionEntity : INotifiableModel
+    {
+        _isAddOnList = true;
+        _notificationInfo.PropInfo.MemberName = ResultServiceHelpers.TranslateLambda(expression) + $"[{instance.Count}]";
+        return this;
+    }
+
+    /// <summary>
     ///  Garante validações personalizadas por meio de arrow function. Quando o retorno for false irá registrar falha.
     /// </summary>
     /// <typeparam name="TNotifiableModel">Reprensa o tipo do objeto a ser validado.</typeparam>
